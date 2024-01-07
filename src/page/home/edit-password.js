@@ -1,15 +1,28 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable, TextInput } from 'react-native';
+import { changePassword } from '../../../service/auth';
 import styles from './assets/style/index';
+import * as GLOBAL from "../../../data/global.js";
 
 const EditPassword = ({navigation}) => {
   
+  const user = useSelector((state) => state.user);
+
   const [currentPassword, setCurrentPassword] = React.useState();
   const [password, setPassword] = React.useState();
   const [passwordConfirm, setPasswordConfirm] = React.useState();
   
-  const onSubmit = () => {
-    console.log("onSubmit...");
+  const onSubmit = async () => {
+    
+    if(global.debug >= GLOBAL.LOG.INFO) console.log("EditProfile::submitButtonPress()")
+  
+    const response = await changePassword(/*user.id*/1, {user_current_password: currentPassword, user_password: password, user_password_confirm: passwordConfirm});
+    
+    if(response.success) {
+      alert("Mise à jour du mot de passe effectué enregistré !");
+    } else {
+      alert("Echec de mise à jour");
+    }
   }
   
   return (
@@ -20,13 +33,13 @@ const EditPassword = ({navigation}) => {
           
           <Text style={styles.label}>Mot de passe</Text>
           <TextInput secureTextEntry
-            style={[styles.input,{marginBottom: 10}]}
+            style={styles.input}
             onChangeText={(text)=>setCurrentPassword(text)}
             value={currentPassword} />
             
           <Text style={styles.label}>Nouveau mot de passe</Text>
           <TextInput secureTextEntry
-            style={[styles.input,{marginBottom: 10}]}
+            style={styles.input}
             onChangeText={(text)=>setPassword(text)}
             value={password} />
             
@@ -37,7 +50,7 @@ const EditPassword = ({navigation}) => {
             value={passwordConfirm} />
                         
           <Pressable onPress={onSubmit} style={{display: 'flex', flexWrap: 'wrap'}}>
-            <Text style={[styles.ticket_trajet_button,{marginTop: 20, fontSize: 20}]}>Modifier</Text>
+            <Text style={styles.custom_button}>Modifier</Text>
           </Pressable>
         </View>
       </ScrollView>

@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#D9D9D9',
         fontSize: 18,
-        borderRadius: 5
+        borderRadius: 5,
+        marginBottom: 10
     },
     ticket_container: {
         marginBottom: 40,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     ticket_trajet_price: {
         fontSize: 18,
     },
-    ticket_trajet_button: {
+    custom_button: {
         backgroundColor: "#22812B",
         color: "#fff",
         paddingHorizontal: 10,
@@ -134,6 +135,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         borderRadius: 5
     },
+    book_container: {
+        padding: 16,
+        backgroundColor: '#fff'
+    },
+    book_title: {
+        fontSize: 22,
+        fontWeight: "bold",
+        marginBottom: 20
+    },
 
 
     //Detail
@@ -158,7 +168,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     ticket_detail_form_container: {
-        marginTop: 20,
         padding: 20
     },
     ticket_detail_form_billet: {
@@ -189,6 +198,23 @@ const styles = StyleSheet.create({
     profile_ticket_bought_image: {
         width: 40, 
         height: 40,
+    },
+
+
+    //Setting
+    setting_item: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 20
+    },
+    setting_item_content: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    setting_item_text: {
+        fontSize: 18,
+        marginLeft: 10
     }
 });
 

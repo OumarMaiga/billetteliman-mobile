@@ -3,6 +3,9 @@ import { Image, View, Pressable, Text } from 'react-native';
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { Ionicons } from 'react-native-vector-icons';
 import styles from './assets/style';
+import * as GLOBAL from '../../data/global';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/actions/user';
 
 export const Logo = () => {
 
@@ -14,9 +17,18 @@ export const Logo = () => {
 
 export const ProfileHeader = ({navigation}) => {
 	
-	const returnPress = () => {
+    dispatch = useDispatch();
+	
+    const returnPress = () => {
 		navigation.goBack();
 	}
+
+    const onLogoutPress = () => {
+
+        if(global.debug >= GLOBAL.LOG.DEBUG) console.log("ProfileHeader::onLogoutPress()");
+
+        dispatch(logout());
+    }
 
     return (
         <MenuProvider>
@@ -42,7 +54,7 @@ export const ProfileHeader = ({navigation}) => {
                             <Ionicons name="settings" size={18} color="#000" />
                             <Text style={{marginLeft: 5, marginRight: 5, fontSize: 16}}>Reglage</Text>
                         </MenuOption>
-                        <MenuOption value={"Logout"} style={styles.menu_item}>
+                        <MenuOption onSelect={onLogoutPress} style={styles.menu_item}>
                             <Ionicons name="exit" size={18} color="red" />
                             <Text style={{color: "red", marginLeft: 5, marginRight: 5, fontSize: 16}}>Deconnexion</Text>
                         </MenuOption>

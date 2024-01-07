@@ -9,6 +9,7 @@ import EditProfile from '../../page/home/edit-profile.js';
 import EditPassword from '../../page/home/edit-password.js';
 import Detail from '../../page/home/detail.js';
 import Partner from '../../page/home/partner.js';
+import Setting from '../../page/home/setting.js';
 
 // ** Home ** //
 const HomeStack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ export const HomeStackScreen = () => {
             <HomeStack.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
             <HomeStack.Screen name="EditProfile" component={EditProfile} options={{ title: '', }}/>
             <HomeStack.Screen name="EditPassword" component={EditPassword} options={{ title: '', }}/>
+            <HomeStack.Screen name="Setting" component={Setting} options={{ title: '', }}/>
         </HomeStack.Navigator>
     )
 }

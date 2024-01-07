@@ -1,10 +1,42 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image, Pressable } from 'react-native';
 import { ProfileHeader } from '../../component';
+import { useSelector } from 'react-redux';
+import { getTicketBuyList } from '../../../service/ticket';
 import styles from './assets/style/index';
+import * as GLOBAL from "../../../data/global.js";
 
 const Profile = ({navigation}) => {
     
+  const user = useSelector((state) => state.user);
+
+  const [TicketBuyList, setTicketBuyList] = React.useState([]);
+
+  const fetchTicketBuyList = async (user_id) => {
+
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Profile::fetchTicketBuyList()");
+    
+    setIsLoading(true);
+
+    let response = await getTicketBuyList(user_id);
+    
+    if (response.success) {
+      setTicketBuyList(response.data);
+    }
+    setIsLoading(false);
+
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Profile::fetchTicketBuyList()::response "+JSON.stringify(response));
+
+  }
+
+  React.useEffect(() => {
+
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Profile::useEffect()");
+
+    //fetchTicketBuyList(user.id);
+
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

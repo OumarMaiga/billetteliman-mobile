@@ -1,14 +1,31 @@
 import * as React from 'react';
-import { View, Text, TextInput, SafeAreaView, Button, ScrollView, Pressable, KeyboardAvoidingView, 
+import { Text, TextInput, SafeAreaView, Button, ScrollView, Pressable, KeyboardAvoidingView, 
   TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import { login as loginService } from '../../../service/auth';
+import { useDispatch } from "react-redux";
+import { login as loginState } from "../../../store/actions/user";
 import styles from './assets/style/';
+import "../../../data/global.js";
+import * as GLOBAL from "../../../data/global.js";
 
 const Login = ({navigation}) => {
+
+  const dispatch = useDispatch();
+
   const [login, setLogin] = React.useState();
   const [password, setPassword] = React.useState();
 
-  const submitButtonPress = () => {
-    console.log("soumission...");
+  const submitButtonPress = async () => {
+    
+    if(global.debug >= GLOBAL.LOG.INFO) console.log("Login::submitButtonPress()")
+  
+    const response = await loginService({user_login: login, user_password: password});
+    
+    if(response.success) {
+      dispatch(loginState(response.data));
+    } else {
+      alert("Identifiant non trouvé");
+    }
   }
 
   const inscriptionLinkPress = () => {
