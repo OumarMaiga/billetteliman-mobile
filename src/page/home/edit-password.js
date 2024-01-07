@@ -18,7 +18,7 @@ const EditPassword = ({navigation}) => {
   
     const response = await changePassword(/*user.id*/1, {user_current_password: currentPassword, user_password: password, user_password_confirm: passwordConfirm});
     
-    if(response.success) {
+    if(response != undefined && response.success) {
       alert("Mise à jour du mot de passe effectué enregistré !");
     } else {
       alert("Echec de mise à jour");

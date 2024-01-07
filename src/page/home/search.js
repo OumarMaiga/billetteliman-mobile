@@ -36,7 +36,7 @@ const Search = ({navigation}) => {
 
     const response = await getTicketSearched({start_point: depart, end_point: destination, departure_date: date, ticket_count: place});
     
-    if (response.success) {
+    if (response != undefined && response.success) {
       setTicketSearched(response.data);
     }
     setIsLoading(false);

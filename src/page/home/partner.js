@@ -32,7 +32,7 @@ const Partner = ({route, navigation}) => {
 
     let response = await getPartnerTickets(partner_id);
     
-    if (response.success) {
+    if (response != undefined && response.success) {
       setPartnerTickets(response.data);
     }
     setIsLoading(false);
@@ -48,7 +48,7 @@ const Partner = ({route, navigation}) => {
 
     let response = await getPartner(partner_id);
     
-    if (response.success) {
+    if (response != undefined && response.success) {
       setPartner(response.data);
     }
     setIsLoading(false);

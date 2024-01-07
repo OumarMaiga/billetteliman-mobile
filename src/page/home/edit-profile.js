@@ -8,20 +8,20 @@ import * as GLOBAL from "../../../data/global.js";
 
 const EditProfile = ({navigation}) => {
   
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
   
-  const [firstname, setFirstname] = React.useState(user != undefined ? user.user_fname : "");
-  const [lastname, setLastname] = React.useState(user != undefined ? user.user_name : "");
-  const [phone, setPhone] = React.useState(user != undefined ? user.user_phonenumber : "");
-  const [email, setEmail] = React.useState(user != undefined ? user.user_email : "");
+  const [firstname, setFirstname] = React.useState(user != undefined ? user.fname : "");
+  const [lastname, setLastname] = React.useState(user != undefined ? user.name : "");
+  const [phone, setPhone] = React.useState(user != undefined ? user.phonenumber : "");
+  const [email, setEmail] = React.useState(user != undefined ? user.email : "");
   
   const onSubmit = async () => {
     
     if(global.debug >= GLOBAL.LOG.INFO) console.log("EditProfile::submitButtonPress()")
   
-    const response = await updateUser(/*user.id*/1, {user_fname: firstname, user_name: lastname, user_phonenumber: phone, user_email: email});
+    const response = await updateUser(user.id, {user_fname: firstname, user_name: lastname, user_phonenumber: phone, user_email: email});
     
-    if(response.success) {
+    if(response != undefined && response.success) {
       dispatch(update(response.data));
     } else {
       alert("Echec de mise à jour");

@@ -76,7 +76,7 @@ const Home = ({navigation}) => {
 
     const response = await getTickets();
     
-    if (response.success) {
+    if (response != undefined && response.success) {
       setTickets(response.data);
     }
     setIsLoading(false);
@@ -92,7 +92,7 @@ const Home = ({navigation}) => {
 
     const response = await getPartners();
     
-    if (response.success) {
+    if (response != undefined && response.success) {
       setPartners(response.data);
     }
     setIsLoading(false);

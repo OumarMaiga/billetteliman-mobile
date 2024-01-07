@@ -1,8 +1,8 @@
 import { setToken, removeToken, getToken } from "../../utils/token";
-import { LOGIN, LOGOUT } from '../actions/user';
+import { LOGIN, LOGOUT, UPDATE } from '../actions/user';
 const initialState = {
-  isAuthenticated: false,
-  loading: true,
+  user: null,
+  isAuthenticated: false
 };
 
 export default (state = initialState, action) => {
@@ -14,8 +14,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user: payload,
-        isAuthenticated: true,
-        loading: false,
+        isAuthenticated: true
       };
 
     case LOGOUT:
@@ -23,8 +22,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user: null,
-        isAuthenticated: false,
-        loading: false,
+        isAuthenticated: false
+      };
+
+    case UPDATE:
+      //setToken(payload.token);
+      return {
+        ...state,
+        user: payload
       };
     default:
       return state;

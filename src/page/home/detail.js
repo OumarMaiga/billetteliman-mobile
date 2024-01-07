@@ -20,7 +20,7 @@ const Detail = ({route}) => {
   
     const response = await buyTicket(ticket_id, [{firstname: firstname, lastname: lastname, phonenumber: phone}]);
     
-    if(response.success) {
+    if(response != undefined && response.success) {
       alert("Achat enregistré !");
     } else {
       console.error(response);
@@ -35,7 +35,7 @@ const Detail = ({route}) => {
 
     const response = await getTicket(ticket_id);
     
-    if (response.success) {
+    if (response != undefined && response.success) {
       setTicket(response.data);
     } else {
       console.error(response);

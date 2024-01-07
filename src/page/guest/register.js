@@ -27,7 +27,7 @@ const Register = ({navigation}) => {
 
     const response = await registerService({user_phonenumber_country_id: phonenumber_country_id, user_phonenumber: phone, user_password: password});
     
-    if(response.success) {
+    if(response != undefined && response.success) {
       dispatch(loginState(response.data));
     } else {
       alert("Compte non enregistré");

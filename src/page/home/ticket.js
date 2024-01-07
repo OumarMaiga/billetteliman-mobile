@@ -27,7 +27,7 @@ const Ticket = ({navigation}) => {
 
     const response = await getTickets();
     
-    if (response.success) {
+    if (response != undefined && response.success) {
       setTickets(response.data);
     }
     setIsLoading(false);

@@ -21,7 +21,7 @@ const Login = ({navigation}) => {
   
     const response = await loginService({user_login: login, user_password: password});
     
-    if(response.success) {
+    if(response != undefined && response.success) {
       dispatch(loginState(response.data));
     } else {
       alert("Identifiant non trouvé");

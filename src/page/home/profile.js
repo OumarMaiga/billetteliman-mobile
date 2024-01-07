@@ -20,7 +20,7 @@ const Profile = ({navigation}) => {
 
     let response = await getTicketBuyList(user_id);
     
-    if (response.success) {
+    if (response != undefined && response.success) {
       setTicketBuyList(response.data);
     }
     setIsLoading(false);
