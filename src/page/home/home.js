@@ -5,7 +5,7 @@ import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Logo } from '../../component';
 import { getTickets } from '../../../service/ticket';
-import { getPartners } from '../../../service/partner';
+import { getStations } from '../../../service/station';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
 
@@ -17,7 +17,8 @@ const Home = ({navigation}) => {
   const [ticket_count, setTicket_count] = useState();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [tickets, setTickets] = useState([]);
-  const [partners, setPartners] = useState([]);
+  const [stations, setStations] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const bottomSheetRef = useRef(null);
 
@@ -38,15 +39,15 @@ const Home = ({navigation}) => {
     bottomSheetRef.current.expand();
   };
 
-  const ticketPress = (partner_id) => {
+  const ticketPress = (ticket_id) => {
     navigation.navigate('Detail', {
-      "partner_id": partner_id
+      "ticket_id": ticket_id
     });
   }
   
-  const partnerPress = (ticket_id) => {
-    navigation.navigate('Partner', {
-      "ticket_id": ticket_id
+  const stationPress = (station_id) => {
+    navigation.navigate('Station', {
+      "station_id": station_id
     });
   }
   
@@ -84,20 +85,20 @@ const Home = ({navigation}) => {
     if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Home::fetchTickets()::response "+JSON.stringify(response));
   }
 
-  const fetchPartners = async () => {
+  const fetchStations = async () => {
 
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchPartners()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchStations()");
     
     setIsLoading(true);
 
-    const response = await getPartners();
+    const response = await getStations();
     
     if (response != undefined && response.success) {
-      setPartners(response.data);
+      setStations(response.data);
     }
     setIsLoading(false);
 
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Home::fetchPartners()::response "+JSON.stringify(response));
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Home::fetchStations()::response "+JSON.stringify(response));
   }
 
   useLayoutEffect(() => {
@@ -118,8 +119,8 @@ const Home = ({navigation}) => {
 
       if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::useEffect()");
 
-      //fetchTickets();
-      //fetchPartners();
+      fetchTickets();
+      fetchStations();
 
     }, []);
     
@@ -139,20 +140,20 @@ const Home = ({navigation}) => {
           </Pressable>
         </View>
       
-        <View style={styles.partner_container}>
-          <Text style={styles.partner_title}>Nos partenaires</Text>
-          <View style={styles.partner_item_container}>
-            <Pressable style={styles.partner_item}
-              onPress={() => partnerPress(1)}>
-              <Image style={styles.partner_image} 
+        <View style={styles.station_container}>
+          <Text style={styles.station_title}>Nos partenaires</Text>
+          <View style={styles.station_item_container}>
+            <Pressable style={styles.station_item}
+              onPress={() => stationPress(1)}>
+              <Image style={styles.station_image} 
                 source={require('./assets/image/bus.png')} />
-              <Text style={styles.partner_item_title}>Tilemsi</Text>
+              <Text style={styles.station_item_title}>Tilemsi</Text>
             </Pressable>
-            <Pressable style={styles.partner_item}
-              onPress={() => partnerPress(1)}>
-              <Image style={styles.partner_image} 
+            <Pressable style={styles.station_item}
+              onPress={() => stationPress(1)}>
+              <Image style={styles.station_image} 
                 source={require('./assets/image/bus.png')} />
-              <Text style={styles.partner_item_title}>TCV</Text>
+              <Text style={styles.station_item_title}>TCV</Text>
             </Pressable>
           </View>
         </View>

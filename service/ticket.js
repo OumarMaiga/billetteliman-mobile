@@ -6,7 +6,7 @@ export const getTicket = async(ticket_id) => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getTicket()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/ticket/${ticket_id}/?from-mobile`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/api/ticket/${ticket_id}/?from-mobile`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ export const getTickets = async() => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getTickets()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/ticket/?from-mobile`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/api/ticket/?from-mobile`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -48,12 +48,12 @@ export const getTickets = async() => {
     }
 }
 
-export const getPartnerTickets = async(partner_id) => {
+export const getStationTickets = async(station_id) => {
     
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getPartnerTickets()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getStationTickets()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/ticket/partner/${partner_id}/?from-mobile`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/api/ticket/station/${station_id}/?from-mobile`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -62,12 +62,12 @@ export const getPartnerTickets = async(partner_id) => {
 
         const body = await response.json();
 
-        if (global.debug >= GLOBAL.LOG.TRACE) console.log("TicketService:getPartnerTickets()::body", body);
+        if (global.debug >= GLOBAL.LOG.TRACE) console.log("TicketService:getStationTickets()::body", body);
 
         return body;
 
     } catch (error) {
-        if (global.debug >= GLOBAL.LOG.INFO) console.error("TicketService:getPartnerTickets()::catch", error);
+        if (global.debug >= GLOBAL.LOG.INFO) console.error("TicketService:getStationTickets()::catch", error);
     }
 
 } 
@@ -77,7 +77,7 @@ export const getTicketSearched = async (payload) => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getTicketSearched()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/search/?start_point=${payload.start_point}&end_point=${payload.end_point}&departure_date=${payload.departure_date}&ticket_count=${payload.ticket_count}/?from-mobile`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/api/search/?start_point=${payload.start_point}&end_point=${payload.end_point}&departure_date=${payload.departure_date}&ticket_count=${payload.ticket_count}/?from-mobile`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ export const getTicketBuyList = async(user_id) => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getTicketBuyList()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/ticket/buy/${user_id}/?from-mobile`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/api/ticket/buy/${user_id}/?from-mobile`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -125,7 +125,7 @@ export const buyTicket = async(ticket_id, payload) => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:buyTicket()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/ticket/buy/${ticket_id}/?from-mobile`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/api/ticket/buy/${ticket_id}/?from-mobile`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

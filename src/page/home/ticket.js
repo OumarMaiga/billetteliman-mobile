@@ -9,7 +9,8 @@ import * as GLOBAL from "../../../data/global.js";
 const Ticket = ({navigation}) => {
   
   const [query, setQuery] = React.useState();
-  const [tickets, setTickets] = useState([]);
+  const [tickets, setTickets] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const ticketPress = () => {
     navigation.navigate('Detail');
@@ -52,7 +53,7 @@ const Ticket = ({navigation}) => {
 
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Ticket::useEffect()");
 
-    //fetchTickets();
+    fetchTickets();
 
   }, []);
   

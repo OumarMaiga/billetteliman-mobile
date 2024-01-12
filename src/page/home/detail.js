@@ -7,12 +7,13 @@ import * as GLOBAL from "../../../data/global.js";
 
 const Detail = ({route}) => {
   const { ticket_id } = route.params;
-
+  
   const [ticket_count, setTicket_count] = React.useState();
   const [firstname, setFirstname] = React.useState();
   const [lastname, setLastname] = React.useState();
   const [phone, setPhone] = React.useState();
   const [ticket, setTicket] = React.useState();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const buyPress = async (ticket_id) => {
     
@@ -49,7 +50,7 @@ const Detail = ({route}) => {
 
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Detail::useEffect()");
 
-    //fetchTicket(ticket_id);
+    fetchTicket(ticket_id);
 
   }, []);
 

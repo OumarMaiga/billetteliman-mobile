@@ -16,7 +16,7 @@ const EditPassword = ({navigation}) => {
     
     if(global.debug >= GLOBAL.LOG.INFO) console.log("EditProfile::submitButtonPress()")
   
-    const response = await changePassword(/*user.id*/1, {user_current_password: currentPassword, user_password: password, user_password_confirm: passwordConfirm});
+    const response = await changePassword(user.id, {user_current_password: currentPassword, user_password: password, user_password_confirm: passwordConfirm});
     
     if(response != undefined && response.success) {
       alert("Mise à jour du mot de passe effectué enregistré !");

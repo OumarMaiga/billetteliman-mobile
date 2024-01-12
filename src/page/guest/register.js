@@ -25,7 +25,7 @@ const Register = ({navigation}) => {
       return;
     }
 
-    const response = await registerService({user_phonenumber_country_id: phonenumber_country_id, user_phonenumber: phone, user_password: password});
+    const response = await registerService({user_phonenumber_country_id: phonenumber_country_id, user_phonenumber: phone, user_password: password, user_fname: '', user_name: '', user_email: ''});
     
     if(response != undefined && response.success) {
       dispatch(loginState(response.data));

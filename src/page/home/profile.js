@@ -11,6 +11,7 @@ const Profile = ({navigation}) => {
   const user = useSelector((state) => state.user);
 
   const [TicketBuyList, setTicketBuyList] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const fetchTicketBuyList = async (user_id) => {
 
@@ -26,16 +27,15 @@ const Profile = ({navigation}) => {
     setIsLoading(false);
 
     if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Profile::fetchTicketBuyList()::response "+JSON.stringify(response));
-
   }
 
   React.useEffect(() => {
 
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Profile::useEffect()");
 
-    //fetchTicketBuyList(user.id);
+    fetchTicketBuyList(user.id);
 
-  });
+  },[]);
 
   return (
     <SafeAreaView style={styles.container}>

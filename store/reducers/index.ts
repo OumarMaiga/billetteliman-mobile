@@ -7,7 +7,8 @@ import {combineReducers} from 'redux';
 import user from './user';
 import favorite from './favorite';
 
-export default combineReducers({
+export default user;
+/*export default combineReducers({
   user,
   favorite,
-});
+});*/

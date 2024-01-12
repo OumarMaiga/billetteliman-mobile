@@ -8,7 +8,7 @@ import * as GLOBAL from "../../../data/global.js";
 
 const EditProfile = ({navigation}) => {
   
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user);
   
   const [firstname, setFirstname] = React.useState(user != undefined ? user.fname : "");
   const [lastname, setLastname] = React.useState(user != undefined ? user.name : "");

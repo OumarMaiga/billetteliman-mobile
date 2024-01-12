@@ -2,17 +2,18 @@ import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable, Image } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { Logo } from '../../component';
-import { getPartnerTickets } from '../../../service/ticket';
-import { getPartner } from '../../../service/partner';
+import { getStationTickets } from '../../../service/ticket';
+import { getStation } from '../../../service/station';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
 
-const Partner = ({route, navigation}) => {
+const Station = ({route, navigation}) => {
   
-  const { partner_id } = route.params;
+  const { station_id } = route.params;
   
-  const [partnerTickets, setPartnerTickets] = React.useState([]);
-  const [partner, setPartner] = React.useState();
+  const [stationTickets, setStationTickets] = React.useState([]);
+  const [station, setStation] = React.useState();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const ticketPress = (ticket_id) => {
     navigation.navigate('Detail', {
@@ -24,36 +25,36 @@ const Partner = ({route, navigation}) => {
     navigation.navigate('Profile');
   }
 
-  const fetchPartnerTickets = async (partner_id) => {
+  const fetchStationTickets = async (station_id) => {
 
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Partner::fetchPartnerTickets()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Station::fetchStationTickets()");
     
     setIsLoading(true);
 
-    let response = await getPartnerTickets(partner_id);
+    let response = await getStationTickets(station_id);
     
     if (response != undefined && response.success) {
-      setPartnerTickets(response.data);
+      setStationTickets(response.data);
     }
     setIsLoading(false);
 
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Partner::fetchPartnerTickets()::response "+JSON.stringify(response));
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Station::fetchStationTickets()::response "+JSON.stringify(response));
   }
 
-  const fetchPartner = async (partner_id) => {
+  const fetchStation = async (station_id) => {
 
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Partner::fetchPartner()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Station::fetchStation()");
     
     setIsLoading(true);
 
-    let response = await getPartner(partner_id);
+    let response = await getStation(station_id);
     
     if (response != undefined && response.success) {
-      setPartner(response.data);
+      setStation(response.data);
     }
     setIsLoading(false);
 
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Partner::fetchPartner()::response "+JSON.stringify(response));
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Station::fetchStation()::response "+JSON.stringify(response));
   }
 
   React.useLayoutEffect(() => {
@@ -72,10 +73,10 @@ const Partner = ({route, navigation}) => {
 
   React.useEffect(() => {
 
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Partner::useEffect()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Station::useEffect()");
 
-    //fetchPartnerTickets(partner_id);
-    //fetchPartner(partner_id);
+    fetchStationTickets(station_id);
+    fetchStation(station_id);
 
   }, []);
   
@@ -148,4 +149,4 @@ const Partner = ({route, navigation}) => {
   );
 }
 
-export default Partner;
+export default Station;

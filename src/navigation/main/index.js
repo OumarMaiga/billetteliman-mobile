@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 
 const Navigation = () =>  {
     
-    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.isAuthenticated);
     
     return (
         <NavigationContainer>

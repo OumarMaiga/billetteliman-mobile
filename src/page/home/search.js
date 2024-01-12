@@ -13,6 +13,7 @@ const Search = ({navigation}) => {
   const [date, setDate] = React.useState();
   const [place, setPlace] = React.useState();
   const [ticketSearched, setTicketSearched] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const ticketPress = (ticket_id) => {
     navigation.navigate('Detail', {

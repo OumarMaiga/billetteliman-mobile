@@ -8,7 +8,7 @@ import Profile from '../../page/home/profile.js';
 import EditProfile from '../../page/home/edit-profile.js';
 import EditPassword from '../../page/home/edit-password.js';
 import Detail from '../../page/home/detail.js';
-import Partner from '../../page/home/partner.js';
+import Station from '../../page/home/station.js';
 import Setting from '../../page/home/setting.js';
 
 // ** Home ** //
@@ -18,7 +18,7 @@ export const HomeStackScreen = () => {
         <HomeStack.Navigator initialRouteName='Home'>
             <HomeStack.Screen name="Home" component={Home} />
             <HomeStack.Screen name="Detail" component={Detail} />
-            <HomeStack.Screen name="Partner" component={Partner} />
+            <HomeStack.Screen name="Station" component={Station} />
             <HomeStack.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
             <HomeStack.Screen name="EditProfile" component={EditProfile} options={{ title: '', }}/>
             <HomeStack.Screen name="EditPassword" component={EditPassword} options={{ title: '', }}/>
