@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, Pressable, Image } from 'react-native';
+import { Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { Logo } from '../../component';
 import { getStationTickets } from '../../../service/ticket';
-import { getStation } from '../../../service/station';
+import { getStation } from '../../../service/partner';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
+import TicketList from '../../component/ticketList';
 
 const Station = ({route, navigation}) => {
   
@@ -82,69 +83,8 @@ const Station = ({route, navigation}) => {
   
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={[styles.title,{margin: 20}]}>Tilemsi</Text>
-      <ScrollView>
-        <View style={styles.ticket_container}>
-          <View style={styles.ticket_item}>
-            <Pressable style={styles.ticket_item_container}
-              onPress={() => ticketPress(1)}>
-              <View style={styles.ticket_item_top_container}>
-                <View>
-                  <Text style={styles.ticket_trajet}>Bamako - Kayes</Text>
-                  <Text style={styles.ticket_trajet_date}>Sam 12 Nov à 12h00</Text>
-                </View>
-                <Text style={styles.ticket_station}>Tilemsi</Text>
-              </View>
-              <View style={styles.ticket_item_bottom_container}>
-                <Text style={styles.ticket_trajet_price}>12 500F</Text>
-                <Pressable
-                  onPress={() => ticketPress(1)}>
-                  <Text style={styles.custom_button}>Acheter</Text>
-                </Pressable>
-              </View>
-            </Pressable>
-          </View>
-          <View style={styles.ticket_item}>
-            <Pressable style={styles.ticket_item_container}
-              onPress={() => ticketPress(1)}>
-              <View style={styles.ticket_item_top_container}>
-                <View>
-                  <Text style={styles.ticket_trajet}>Bamako - Kayes</Text>
-                  <Text style={styles.ticket_trajet_date}>Sam 12 Nov à 12h00</Text>
-                </View>
-                <Text style={styles.ticket_station}>Tilemsi</Text>
-              </View>
-              <View style={styles.ticket_item_bottom_container}>
-                <Text style={styles.ticket_trajet_price}>12 500F</Text>
-                <Pressable
-                  onPress={() => ticketPress(1)}>
-                  <Text style={styles.custom_button}>Acheter</Text>
-                </Pressable>
-              </View>
-            </Pressable>
-          </View>
-          <View style={styles.ticket_item}>
-            <Pressable style={styles.ticket_item_container}
-              onPress={() => ticketPress(1)}>
-              <View style={styles.ticket_item_top_container}>
-                <View>
-                  <Text style={styles.ticket_trajet}>Bamako - Kayes</Text>
-                  <Text style={styles.ticket_trajet_date}>Sam 12 Nov à 12h00</Text>
-                </View>
-                <Text style={styles.ticket_station}>Tilemsi</Text>
-              </View>
-              <View style={styles.ticket_item_bottom_container}>
-                <Text style={styles.ticket_trajet_price}>12 500F</Text>
-                <Pressable
-                  onPress={() => ticketPress(1)}>
-                  <Text style={styles.custom_button}>Acheter</Text>
-                </Pressable>
-              </View>
-            </Pressable>
-          </View>
-        
-        </View>
-      </ScrollView>
+      <Text style={[styles.title,{margin: 20}]}>{station && station.company_name}</Text>
+      <TicketList tickets={stationTickets} ticketPress={ticketPress} />
     </SafeAreaView>
   );
 }

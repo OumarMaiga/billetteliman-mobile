@@ -77,7 +77,7 @@ export const getTicketSearched = async (payload) => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getTicketSearched()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/api/search/?start_point=${payload.start_point}&end_point=${payload.end_point}&departure_date=${payload.departure_date}&ticket_count=${payload.ticket_count}/?from-mobile`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/api/search/?start_point=${payload.start_point}&end_point=${payload.end_point}&departure_date=${payload.departure_date}&ticket_count=${payload.ticket_count}&from-mobile`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -125,7 +125,7 @@ export const buyTicket = async(ticket_id, payload) => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:buyTicket()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/api/ticket/buy/${ticket_id}/?from-mobile`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/api/ticket/buy/${ticket_id}/?user_id=${payload.user_id}&from-mobile`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

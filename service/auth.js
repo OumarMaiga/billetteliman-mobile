@@ -57,7 +57,7 @@ export const updateUser = async(user_id, payload) => {
     
     try {
         const response = await fetch(`${global.SERVER_ADDRESS}/api/user/update/${user_id}/?from-mobile`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'

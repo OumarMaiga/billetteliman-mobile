@@ -19,6 +19,7 @@ export const HomeStackScreen = () => {
             <HomeStack.Screen name="Home" component={Home} />
             <HomeStack.Screen name="Detail" component={Detail} />
             <HomeStack.Screen name="Station" component={Station} />
+            <HomeStack.Screen name="Search" component={Search} />
             <HomeStack.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
             <HomeStack.Screen name="EditProfile" component={EditProfile} options={{ title: '', }}/>
             <HomeStack.Screen name="EditPassword" component={EditPassword} options={{ title: '', }}/>

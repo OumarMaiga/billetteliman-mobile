@@ -5,9 +5,11 @@ import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Logo } from '../../component';
 import { getTickets } from '../../../service/ticket';
-import { getStations } from '../../../service/station';
+import { getStations } from '../../../service/partner';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
+import StationList from '../../component/stationList';
+import TicketList from '../../component/ticketList';
 
 const Home = ({navigation}) => {
   
@@ -56,7 +58,12 @@ const Home = ({navigation}) => {
   }
 
   const searchPress = () => {
-    console.log("searchPressed!");
+    navigation.navigate('Search', {
+      'start_point': start_point,
+      'end_point': end_point,
+      'departure_date': departure_date,
+      'ticket_count': ticket_count
+    });
   }
 
   const dateFormated = () => {
@@ -115,15 +122,16 @@ const Home = ({navigation}) => {
     });
   }, [navigation]);
 
-    useEffect(() => {
+  useEffect(() => {
 
-      if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::useEffect()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::useEffect()");
 
-      fetchTickets();
-      fetchStations();
+    fetchTickets();
+    fetchStations();
 
-    }, []);
-    
+  }, []);
+  
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -140,89 +148,14 @@ const Home = ({navigation}) => {
           </Pressable>
         </View>
       
-        <View style={styles.station_container}>
-          <Text style={styles.station_title}>Nos partenaires</Text>
-          <View style={styles.station_item_container}>
-            <Pressable style={styles.station_item}
-              onPress={() => stationPress(1)}>
-              <Image style={styles.station_image} 
-                source={require('./assets/image/bus.png')} />
-              <Text style={styles.station_item_title}>Tilemsi</Text>
-            </Pressable>
-            <Pressable style={styles.station_item}
-              onPress={() => stationPress(1)}>
-              <Image style={styles.station_image} 
-                source={require('./assets/image/bus.png')} />
-              <Text style={styles.station_item_title}>TCV</Text>
-            </Pressable>
-          </View>
-        </View>
-
-        <View style={styles.ticket_container}>
-          <View style={styles.ticket_item}>
-            <Pressable style={styles.ticket_item_container}
-              onPress={() => ticketPress(1)}>
-              <View style={styles.ticket_item_top_container}>
-                <View>
-                  <Text style={styles.ticket_trajet}>Bamako - Kayes</Text>
-                  <Text style={styles.ticket_trajet_date}>Sam 12 Nov à 12h00</Text>
-                </View>
-                <Text style={styles.ticket_station}>Tilemsi</Text>
-              </View>
-              <View style={styles.ticket_item_bottom_container}>
-                <Text style={styles.ticket_trajet_price}>12 500F</Text>
-                <Pressable
-                  onPress={() => ticketPress(1)}>
-                  <Text style={styles.custom_button}>Acheter</Text>
-                </Pressable>
-              </View>
-            </Pressable>
-          </View>
-          <View style={styles.ticket_item}>
-            <Pressable style={styles.ticket_item_container}
-              onPress={() => ticketPress(1)}>
-              <View style={styles.ticket_item_top_container}>
-                <View>
-                  <Text style={styles.ticket_trajet}>Bamako - Kayes</Text>
-                  <Text style={styles.ticket_trajet_date}>Sam 12 Nov à 12h00</Text>
-                </View>
-                <Text style={styles.ticket_station}>Tilemsi</Text>
-              </View>
-              <View style={styles.ticket_item_bottom_container}>
-                <Text style={styles.ticket_trajet_price}>12 500F</Text>
-                <Pressable
-                  onPress={() => ticketPress(1)}>
-                  <Text style={styles.custom_button}>Acheter</Text>
-                </Pressable>
-              </View>
-            </Pressable>
-          </View>
-          <View style={styles.ticket_item}>
-            <Pressable style={styles.ticket_item_container}
-              onPress={() => ticketPress(1)}>
-              <View style={styles.ticket_item_top_container}>
-                <View>
-                  <Text style={styles.ticket_trajet}>Bamako - Kayes</Text>
-                  <Text style={styles.ticket_trajet_date}>Sam 12 Nov à 12h00</Text>
-                </View>
-                <Text style={styles.ticket_station}>Tilemsi</Text>
-              </View>
-              <View style={styles.ticket_item_bottom_container}>
-                <Text style={styles.ticket_trajet_price}>12 500F</Text>
-                <Pressable
-                  onPress={() => ticketPress(1)}>
-                  <Text style={styles.custom_button}>Acheter</Text>
-                </Pressable>
-              </View>
-            </Pressable>
-          </View>
-        
-        </View>
+        <StationList stations={stations} stationPress={stationPress} />
+      
+        <TicketList tickets={tickets} ticketPress={ticketPress}/>
         
         <BottomSheet
           ref={bottomSheetRef}
           index={-1}
-          snapPoints={['70%']}
+          snapPoints={['75%']}
           enablePanDownToClose={true}
           >
           <View style={styles.book_container}>

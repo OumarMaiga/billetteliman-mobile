@@ -22,50 +22,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 10
     },
-    ticket_container: {
-        marginBottom: 40,
-    },
-    ticket_item: {
-        flex: 1,
-        margin: 10,
-        height: 100,
-        flexDirection: "row",
-        backgroundColor: "#EFEFEF",
-        padding: 10,
-        borderWidth: 1,
-        borderColor: "#22812B",
-        borderRadius: 10
-    },
-    ticket_item_container: {
-        flex: 1,
-        marginLeft: 5,
-        justifyContent: "space-between"
-    },
-    ticket_trajet: {
-        fontSize: 18
-    },
-    ticket_station: {
-        fontSize: 16,
-        fontWeight: "bold"
-    },
-    ticket_item_top_container: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "flex-start"
-
-    },
-    ticket_item_bottom_container: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "flex-end"
-    },
-    ticket_trajet_date: {
-        fontSize: 12,
-        fontWeight: '300'
-    },
-    ticket_trajet_price: {
-        fontSize: 18,
-    },
     custom_button: {
         backgroundColor: "#22812B",
         color: "#fff",
@@ -83,31 +39,18 @@ const styles = StyleSheet.create({
         height: 200,
         backgroundColor: '#c4c4c4'
     },
-    partner_container: {
+    station_container: {
         margin: 5,
     },
-    partner_item_container: {
-        flex: 1,
-        flexDirection: "row"
-    },
-    partner_title: {
+    station_title: {
         fontSize: 22,
         marginLeft: 10
     },
-    partner_item: {
-        margin: 10
-    },
-    partner_item_title: {
-        fontSize: 18,
-        marginLeft: 4
-    },
-    partner_image: {
-        width: 100,
-        height: 100,
-        backgroundColor: '#c4c4c4'
+    station_item_container: {
+        flex: 1,
+        flexDirection: "row"
     },
     search_section: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -215,6 +158,24 @@ const styles = StyleSheet.create({
     setting_item_text: {
         fontSize: 18,
         marginLeft: 10
+    },
+
+    //Search 
+    ticket_available_container: {
+        margin: 10
+    },
+    ticket_available_title: {
+        fontSize: 28,
+        fontWeight: "bold"
+    },
+    ticket_available_date: {
+        fontSize: 18,
+        marginTop: 5
+    },
+    ticket_available: {
+        fontSize: 14,
+        fontWeight: '300',
+        marginTop: 10
     }
 });
 
