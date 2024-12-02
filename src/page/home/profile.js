@@ -12,6 +12,12 @@ const Profile = ({navigation}) => {
 
   const [TicketBuyList, setTicketBuyList] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const toggleErrorModal = () => {
+    setIsErrorModalVisible(!isErrorModalVisible);
+  };
 
   const fetchTicketBuyList = async (user_id) => {
 
@@ -19,10 +25,13 @@ const Profile = ({navigation}) => {
     
     setIsLoading(true);
 
-    let response = await getTicketBuyList(user_id);
+    const response = await getTicketBuyList(user_id);
     
-    if (response != undefined && response.success) {
-      setTicketBuyList(response.data);
+    if (response != undefined && response.error == null) {
+      setTicketBuyList(response.datas.ticketsDatas);
+    } else {
+      setErrorMessage(response.error);
+      setIsErrorModalVisible(!isErrorModalVisible);
     }
     setIsLoading(false);
 
@@ -137,6 +146,7 @@ const Profile = ({navigation}) => {
             </View>
           </View>
         </View>
+        <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
       </ScrollView>
     </SafeAreaView>
   );

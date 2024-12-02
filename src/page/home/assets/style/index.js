@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
         borderColor: '#D9D9D9',
         fontSize: 18,
         borderRadius: 5,
-        marginBottom: 10
+        marginBottom: 10,
+        justifyContent: 'center',
     },
     custom_button: {
         backgroundColor: "#22812B",

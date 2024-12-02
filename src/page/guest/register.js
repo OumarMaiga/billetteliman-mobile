@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, TextInput, Button, ScrollView, Pressable, KeyboardAvoidingView, 
   TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
-  import { register as registerService } from '../../../service/auth';
-  import { useDispatch } from "react-redux";
-  import { login as loginState } from "../../../store/actions/user";
+import { Picker } from '@react-native-picker/picker';
+import { register as registerService } from '../../../service/auth';
+import { useDispatch } from "react-redux";
+import { login as loginState } from "../../../store/actions/user";
+import { getIdentifiers } from '../../../service/identifier';
 import * as GLOBAL from "../../../data/global.js";
 import styles from './assets/style/';
 
@@ -11,10 +13,43 @@ const Register = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const [phonenumber_country_id, setPhonenumber_country_id] = React.useState(223);
   const [phone, setPhone] = React.useState();
   const [password, setPassword] = React.useState();
   const [passwordConfirm, setPasswordConfirm] = React.useState();
+  const [identifiers, setIdentifiers] = useState([]);
+  const [identifierSelected, setIdentifierSelected] = useState(identifiers[0].value);
+  /*const pickerRef = useRef();
+
+  function open() {
+    pickerRef.current.focus();
+  }
+  
+  function close() {
+    pickerRef.current.blur();
+  }*/
+  useEffect(() => {
+
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Register::useEffect()");
+
+    fetchIdentifiers();
+
+  }, []);
+
+  const fetchIdentifiers = async () => {
+
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Register::fetchIdentifiers()");
+    
+    setIsLoading(true);
+
+    const response = await getIdentifiers();
+    
+    if (response != undefined && response.error == null) {
+      setIdentifiers(response.data);
+    }
+    setIsLoading(false);
+
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Register::fetchIdentifiers()::response "+JSON.stringify(response));
+  }
   
   const submitButtonPress = async () => {
     
@@ -25,12 +60,17 @@ const Register = ({navigation}) => {
       return;
     }
 
-    const response = await registerService({user_phonenumber_country_id: phonenumber_country_id, user_phonenumber: phone, user_password: password, user_fname: '', user_name: '', user_email: ''});
+    const formData = new FormData();
+    formData.append("user-phonenumber", phone);
+    formData.append("user-password", password);
+    formData.append("country-identifier", identifierSelected);
+
+    const response = await registerService(formData);
     
-    if(response != undefined && response.success) {
-      dispatch(loginState(response.data));
+    if(response != undefined && response.error == null) {
+      dispatch(loginState(response.datas.accountDatas));
     } else {
-      alert("Compte non enregistré");
+      alert(response.error);
     }
     
   }
@@ -47,11 +87,13 @@ const Register = ({navigation}) => {
             <ScrollView style={{margin: 20}}>
               <Text style={[styles.title,{marginTop: 80, marginBottom: 20}]}>Inscrivez-vous</Text>
               <Text style={styles.label}>Pays</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={(text)=>setPhonenumber_country_id(text)}
-                value={phonenumber_country_id}
-                keyboardType='phone-pad' />
+              <Picker
+                selectedValue={identifierSelected}
+                onValueChange={(itemValue, itemIndex) =>
+                  setIdentifierSelected(itemValue)
+                }>
+                  {identifiers.map((identifier) => <Picker.Item label={identifier.identifier} value={identifier.id} /> )}
+              </Picker>
               <Text style={styles.label}>Téléphone</Text>
               <TextInput
                 style={styles.input}

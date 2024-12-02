@@ -6,10 +6,10 @@ export default function({station, handelItemPress}) {
     
     return (
         <Pressable style={styles.station_item}
-            onPress={() => handelItemPress(station.id)}>
+            onPress={() => handelItemPress(station["1"].id)}>
             <Image style={styles.station_image} 
-                source={{uri: global.SERVER_ADDRESS+station.company_image}} />
-            <Text style={styles.station_item_title}>{station.company_name}</Text>
+                source={{uri: station["1"].imagePath}} />
+            <Text style={styles.station_item_title}>{station["1"].name}</Text>
         </Pressable>
     )
 }

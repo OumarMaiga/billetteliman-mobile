@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Text, TextInput, SafeAreaView, Button, ScrollView, Pressable, KeyboardAvoidingView, 
   TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { login as loginService } from '../../../service/auth';
+import { getIdentifiers } from '../../../service/identifier';
 import { useDispatch } from "react-redux";
 import { login as loginState } from "../../../store/actions/user";
 import styles from './assets/style/';
@@ -14,17 +16,58 @@ const Login = ({navigation}) => {
 
   const [login, setLogin] = React.useState();
   const [password, setPassword] = React.useState();
+  const [identifiers, setIdentifiers] = React.useState([]);
+  const [identifierSelected, setIdentifierSelected] = React.useState(identifiers.length > 0 ?? identifiers[0].value);
+  const [isLoading, setIsLoading] = React.useState(false);
+  /*const pickerRef = useRef();
+
+  function open() {
+    pickerRef.current.focus();
+  }
+  
+  function close() {
+    pickerRef.current.blur();
+  }*/
+
+  React.useEffect(() => {
+
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Login::useEffect()");
+
+    fetchIdentifiers();
+
+  }, []);
+
+  const fetchIdentifiers = async () => {
+
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Login::fetchIdentifiers()");
+    
+    setIsLoading(true);
+    
+    const response = await getIdentifiers();
+    
+    if (response != undefined && response.error == null) {
+      setIdentifiers(response.datas.identifiers);
+    }
+    setIsLoading(false);
+
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Login::fetchIdentifiers()::response "+JSON.stringify(response));
+  }
 
   const submitButtonPress = async () => {
     
     if(global.debug >= GLOBAL.LOG.INFO) console.log("Login::submitButtonPress()")
-  
-    const response = await loginService({user_login: login, user_password: password});
+      
+    const formData = new FormData();
+    formData.append("user-login", login);
+    formData.append("user-password", password);
+    formData.append("country-identifier", identifierSelected);
+
+    const response = await loginService(formData);
     
-    if(response != undefined && response.success) {
-      dispatch(loginState(response.data));
+    if(response != undefined && response.error == null) {
+      dispatch(loginState(response.datas.accountDatas));
     } else {
-      alert("Identifiant non trouvé");
+      alert(response.error);
     }
   }
 
@@ -39,6 +82,16 @@ const Login = ({navigation}) => {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ScrollView style={{margin: 20}}>
               <Text style={[styles.title,{marginTop: 80, marginBottom: 20}]}>Bienvenue</Text>
+              
+              <Text style={styles.label}>Pays</Text>
+              <Picker
+                selectedValue={identifierSelected}
+                onValueChange={(itemValue, itemIndex) =>
+                  setIdentifierSelected(itemValue)
+                }>
+                  {identifiers.map((identifier) => <Picker.Item label={identifier.identifier} value={identifier.id} /> )}
+              </Picker>
+              
               <Text style={styles.label}>Telephone</Text>
               <TextInput
                 style={styles.input}

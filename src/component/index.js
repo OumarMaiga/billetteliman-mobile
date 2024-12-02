@@ -34,32 +34,32 @@ export const ProfileHeader = ({navigation}) => {
         <MenuProvider>
             <View style={styles.profile_header}>        
                 <View style={styles.profile_header_icon_container}>
-                <Pressable onPress={returnPress}>
-                    <Ionicons name="arrow-back" size={32} color="#fff" />
-                </Pressable>
-                <Menu onSelect={value => navigation.navigate(value)}>
-                    <MenuTrigger>
-                        <Ionicons name="ellipsis-vertical" size={32} color="#fff" />
-                    </MenuTrigger>
-                    <MenuOptions>
-                        <MenuOption value={"EditProfile"} style={styles.menu_item}>
-                            <Ionicons name="refresh" size={18} color="#000" />
-                            <Text style={{marginLeft: 5, marginRight: 5, fontSize: 16}}>Modifier le profil</Text>
-                        </MenuOption>
-                        <MenuOption value={"EditPassword"} style={styles.menu_item}>
-                            <Ionicons name="key" size={18} color="#000" />
-                            <Text style={{marginLeft: 5, marginRight: 5, fontSize: 16}}>Changer le mot de passe</Text>
-                        </MenuOption>
-                        <MenuOption value={"Setting"} style={styles.menu_item}>
-                            <Ionicons name="settings" size={18} color="#000" />
-                            <Text style={{marginLeft: 5, marginRight: 5, fontSize: 16}}>Reglage</Text>
-                        </MenuOption>
-                        <MenuOption onSelect={onLogoutPress} style={styles.menu_item}>
-                            <Ionicons name="exit" size={18} color="red" />
-                            <Text style={{color: "red", marginLeft: 5, marginRight: 5, fontSize: 16}}>Deconnexion</Text>
-                        </MenuOption>
-                    </MenuOptions>
-                </Menu>
+                    <Pressable onPress={returnPress}>
+                        <Ionicons name="arrow-back" size={32} color="#fff" />
+                    </Pressable>
+                    <Menu onSelect={value => navigation.navigate(value)}>
+                        <MenuTrigger>
+                            <Ionicons name="ellipsis-vertical" size={32} color="#fff" />
+                        </MenuTrigger>
+                        <MenuOptions>
+                            <MenuOption value={"EditProfile"} style={styles.menu_item}>
+                                <Ionicons name="refresh" size={18} color="#000" />
+                                <Text style={{marginLeft: 5, marginRight: 5, fontSize: 16}}>Modifier le profil</Text>
+                            </MenuOption>
+                            <MenuOption value={"EditPassword"} style={styles.menu_item}>
+                                <Ionicons name="key" size={18} color="#000" />
+                                <Text style={{marginLeft: 5, marginRight: 5, fontSize: 16}}>Changer mot de passe</Text>
+                            </MenuOption>
+                            <MenuOption value={"Setting"} style={styles.menu_item}>
+                                <Ionicons name="settings" size={18} color="#000" />
+                                <Text style={{marginLeft: 5, marginRight: 5, fontSize: 16}}>Reglage</Text>
+                            </MenuOption>
+                            <MenuOption onSelect={onLogoutPress} style={styles.menu_item}>
+                                <Ionicons name="exit" size={18} color="red" />
+                                <Text style={{color: "red", marginLeft: 5, marginRight: 5, fontSize: 16}}>Deconnexion</Text>
+                            </MenuOption>
+                        </MenuOptions>
+                    </Menu>
                 </View>
                 <View style={styles.profile_header_info}>
                     <Image style={styles.profile_image} 

@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         padding: 20,
         backgroundColor: "#22812B",
-        height: 170
+        height: 170,
+        paddingTop: 40
     },
     profile_header_info: {
         alignItems: "center",

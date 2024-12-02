@@ -1,16 +1,14 @@
 import "../data/global.js";
 import * as GLOBAL from "../data/global.js";
 
-export const getStation = async(station_id) => {
+export const getStation = async(station_id, payload) => {
     
     if (global.debug >= GLOBAL.LOG.INFO) console.log("StationService:getStation()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/api/station/${station_id}/?from-mobile`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        const response = await fetch(`${global.SERVER_ADDRESS}/partner/details/${station_id}`, {
+            method: 'POST',
+            body: payload
         });
 
         const body = await response.json();
@@ -25,16 +23,14 @@ export const getStation = async(station_id) => {
 }
 
 
-export const getStations = async() => {
+export const getStations = async(payload) => {
     
     if (global.debug >= GLOBAL.LOG.INFO) console.log("StationService:getStations()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/api/station/?from-mobile`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        const response = await fetch(`${global.SERVER_ADDRESS}/partners/details`, {
+            method: 'POST',
+            body: payload
         });
 
         const body = await response.json();

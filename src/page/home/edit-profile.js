@@ -19,10 +19,16 @@ const EditProfile = ({navigation}) => {
     
     if(global.debug >= GLOBAL.LOG.INFO) console.log("EditProfile::submitButtonPress()")
   
-    const response = await updateUser(user.id, {user_fname: firstname, user_name: lastname, user_phonenumber: phone, user_email: email});
+      const formData = new FormData();
+      formData.append("user-firstname", firstname);
+      formData.append("user-lastname", lastname);
+      formData.append("user-phonenumber", phone);
+      formData.append("user-email", email);
+
+    const response = await updateUser(user.id, formData);
     
-    if(response != undefined && response.success) {
-      dispatch(update(response.data));
+    if(response != undefined && response.error == null) {
+      dispatch(update(response.datas.accountDatas));
     } else {
       alert("Echec de mise à jour");
     }

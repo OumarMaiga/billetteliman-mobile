@@ -1,30 +1,32 @@
 import React from 'react';
 import '../../data/global';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { dateToDateHourString, priceFormat } from '../helper';
+import { dateTimeFormat, priceFormat } from '../helper';
 
 export default function({ticket, handelItemPress}) {
     
     return (
-        <View style={styles.ticket_item}>
+        ticket.items.map((ticketData, index) => (
+        <View style={styles.ticket_item} key={index}>
             <Pressable style={styles.ticket_item_container}
-                onPress={() => handelItemPress(ticket.id)}>
+                onPress={() => handelItemPress(ticketData.id, ticket.timestamp)}>
                 <View style={styles.ticket_item_top_container}>
                     <View>
-                        <Text style={styles.ticket_trajet}>{ticket.start_point} - {ticket.end_point}</Text>
-                        <Text style={styles.ticket_trajet_date}>{dateToDateHourString(ticket.departure_date)}</Text>
+                        <Text style={styles.ticket_trajet}>{ticketData.travelDatas.from} - {ticketData.travelDatas.to}</Text>
+                        <Text style={styles.ticket_trajet_date}>{dateTimeFormat(ticket.timestamp, ticketData.travelDatas.departureAt)}</Text>
                     </View>
-                    <Text style={styles.ticket_station}>{ticket.company_name}</Text>
+                    <Text style={styles.ticket_station}>{ticketData.partner.companyName}</Text>
                 </View>
                 <View style={styles.ticket_item_bottom_container}>
-                    <Text style={styles.ticket_trajet_price}>{priceFormat(ticket.price)}</Text>
+                    <Text style={styles.ticket_trajet_price}>{priceFormat(ticketData.price)}</Text>
                     <Pressable
-                        onPress={() => handelItemPress(ticket.id)}>
+                        onPress={() => handelItemPress(ticketData.id, ticket.timestamp)}>
                         <Text style={styles.custom_button}>Acheter</Text>
                     </Pressable>
                 </View>
             </Pressable>
         </View>
+        ))
     )
 }
 

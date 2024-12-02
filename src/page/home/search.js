@@ -2,22 +2,31 @@ import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable, FlatList } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { Logo } from '../../component';
-import { getTicketSearched } from '../../../service/ticket';
+import { getTicketsSearched } from '../../../service/ticket';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
-import { dateToDateHourString } from '../../helper';
+import { convertToDate } from '../../helper';
 import TicketList from '../../component/ticketList';
+import ErrorModal from '../../component/ErrorModal';
 
 const Search = ({route, navigation}) => {
   
-  const { start_point, end_point, departure_date, ticket_count } = route.params;
-
-  const [ticketSearched, setTicketSearched] = React.useState([]);
+  const { start_point, end_point, departure_date } = route.params;
+  
+  const [ticketsSearched, setTicketsSearched] = React.useState([]);
+  const [ticketsSearchedCount, setTicketsSearchedCount] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  const ticketPress = (ticket_id) => {
-    navigation.navigate('Detail', {
-      "ticket_id": ticket_id
+  const toggleErrorModal = () => {
+    setIsErrorModalVisible(!isErrorModalVisible);
+  };
+  
+  const ticketPress = (ticket_id, day) => {
+    navigation.navigate('Ticket', {
+      "ticket_id": ticket_id,
+      "day": day
     });
   }
   
@@ -25,20 +34,31 @@ const Search = ({route, navigation}) => {
     navigation.navigate('Profile');
   }
 
-  const fetchTicketSearched = async () => {
+  const fetchTicketsSearched = async () => {
 
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Search::fetchTicketSearched()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Search::fetchTicketsSearched()");
     
     setIsLoading(true);
 
-    const response = await getTicketSearched({start_point: start_point, end_point: end_point, departure_date: departure_date, ticket_count: ticket_count});
+    const formData = new FormData();
+    formData.append("is-available", 1);
+
+    const response = await getTicketsSearched(formData, {start_point: start_point, end_point: end_point, departure_date: departure_date});
     
-    if (response != undefined && response.success) {
-      setTicketSearched(response.data);
+    if (response != undefined && response.error == null) {
+      const ticketsAsArray = Object.entries(response.datas.searchResults.data).map(([key, value]) => ({
+        timestamp: key,
+        items: value
+      }));
+      setTicketsSearched(ticketsAsArray);
+      setTicketsSearchedCount(response.datas.searchResults.count);
+    } else {
+      setErrorMessage(response.error);
+      setIsErrorModalVisible(!isErrorModalVisible);
     }
     setIsLoading(false);
 
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Search::fetchTicketSearched()::response "+JSON.stringify(response));
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Search::fetchTicketsSearched()::response "+JSON.stringify(response));
   }
 
   React.useLayoutEffect(() => {
@@ -59,17 +79,18 @@ const Search = ({route, navigation}) => {
 
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Search::useEffect()");
 
-    fetchTicketSearched();
+    fetchTicketsSearched();
   },[]);
   
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.ticket_available_container}>
         <Text style={styles.ticket_available_title}>{start_point} - {end_point}</Text>
-        <Text style={styles.ticket_available_date}>{dateToDateHourString(departure_date)}</Text>
-        <Text style={styles.ticket_available}>{ticketSearched && ticketSearched.length} trajet(s) disponible</Text>
+        <Text style={styles.ticket_available_date}>{convertToDate(departure_date)}</Text>
+        <Text style={styles.ticket_available}>{ticketsSearchedCount} trajet(s) disponible</Text>
       </View>
-      <TicketList tickets={ticketSearched} ticketPress={ticketPress} />
+      <TicketList tickets={ticketsSearched} ticketPress={ticketPress} />
+      <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
     </SafeAreaView>
   );
 }

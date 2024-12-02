@@ -1,70 +1,131 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
-import { Ionicons } from 'react-native-vector-icons';
-import { Logo } from '../../component';
-import { getTickets } from '../../../service/ticket';
+import { View, Text, SafeAreaView, ScrollView, TextInput, 
+  Pressable, KeyboardAvoidingView, Platform } from 'react-native';
+import { getTicket, buyTicket } from '../../../service/ticket';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
-import TicketItem from '../../component/ticketItem';
-import TicketList from '../../component/ticketList';
+import { dateTimeFormat, priceFormat } from '../../helper';
+import { useSelector } from 'react-redux';
+import ErrorModal from '../../component/ErrorModal';
 
-const Ticket = ({navigation}) => {
+const Ticket = ({route}) => {
+  const { ticket_id, day } = route.params;
   
-  const [query, setQuery] = React.useState();
-  const [tickets, setTickets] = React.useState([]);
+  const [firstname, setFirstname] = React.useState();
+  const [lastname, setLastname] = React.useState();
+  const [phonenumber, setPhonenumber] = React.useState();
+  const [ticket, setTicket] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  const ticketPress = (ticket_id) => {
-    navigation.navigate('Detail', {
-      'ticket_id': ticket_id
-    });
-  }
+  const user = useSelector((state) => state.user);
+
+  const toggleErrorModal = () => {
+    setIsErrorModalVisible(!isErrorModalVisible);
+  };
+
+  const buyPress = async (ticket_id) => {
+    
+    if(global.debug >= GLOBAL.LOG.INFO) console.log("Ticket::submitButtonPress()")
   
-  const prodilePress = () => {
-    navigation.navigate('Profile');
+    const formData = new FormData();
+    formData.append("firstname", [firstname]);
+    formData.append("lastname", [lastname]);
+    formData.append("phonenumber", [phonenumber]);
+    formData.append("count", 1);
+    formData.append("day", day);
+    formData.append("potential-payer", user.id);
+
+    const response = await buyTicket(ticket_id, formData);
+    
+    if(response != undefined && response.error == null) {
+      console.log(response.payment_url);
+    } else {
+      setErrorMessage(response.error);
+      setIsErrorModalVisible(!isErrorModalVisible);
+    }
   }
 
-  const fetchTickets = async () => {
+  const fetchTicket = async (ticket_id) => {
 
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Ticket::fetchTickets()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Ticket::fetchTicket()");
     
     setIsLoading(true);
 
-    const response = await getTickets();
+    const formData = new FormData();
+    formData.append("details-types[]", 1);
+    formData.append("details-types[]", 2);
+    formData.append("details-types[]", 3);
+
+    const response = await getTicket(ticket_id, formData);
     
-    if (response != undefined && response.success) {
-      setTickets(response.data);
+    if (response != undefined && response.error == null) {
+      setTicket(response.datas.ticketDatas);
+    } else {
+      setErrorMessage(response.error);
+      setIsErrorModalVisible(!isErrorModalVisible);
     }
     setIsLoading(false);
 
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Ticket::fetchTickets()::response "+JSON.stringify(response));
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Ticket::fetchTicket()::response "+JSON.stringify(response));
   }
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "",
-      headerLeft: (props) => <Logo {...props}/>,
-      headerRight: () => (
-        <Pressable style={{ borderWidth: 1, borderColor: "#fff", borderRadius: 40 }}
-          onPress={prodilePress} >
-          <Ionicons name="person-circle-sharp" size={36} />
-        </Pressable>
-      ),
-    });
-  }, [navigation]);
 
   React.useEffect(() => {
 
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Ticket::useEffect()");
 
-    fetchTickets();
+    fetchTicket(ticket_id);
 
   }, []);
-  
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={[styles.title,{margin: 20}]}>Billet en vente</Text>
-      <TicketList tickets={tickets} ticketPress={ticketPress} />
+      <KeyboardAvoidingView behavior="padding" 
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}>
+          <ScrollView>
+            <View style={styles.ticket_detail_container}>
+              <Text style={styles.ticket_detail_station}>{ticket && ticket.partner.companyName}</Text>
+              <View style={styles.ticket_detail_item}>
+                <Text style={styles.ticket_detail_item_title}>Trajet</Text>
+                <Text style={styles.ticket_detail_item_text}>{ticket && ticket.travelDatas.from} - {ticket && ticket.travelDatas.to}</Text>
+              </View>
+              <View style={styles.ticket_detail_item}>
+                <Text style={styles.ticket_detail_item_title}>Tarif</Text>
+                <Text style={styles.ticket_detail_item_text}>{ticket && priceFormat(ticket.price)}</Text>
+              </View>
+              <View style={styles.ticket_detail_item}>
+                <Text style={styles.ticket_detail_item_title}>Depart</Text>
+                <Text style={styles.ticket_detail_item_text}>{ticket && dateTimeFormat(day, ticket.travelDatas.departureAt)}</Text>
+              </View>
+            </View>
+            <View style={styles.ticket_detail_form_container}>
+              <Text style={styles.ticket_detail_form_billet}>Informations du passager</Text>
+              <Text style={styles.label}>Prenom</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text)=>setFirstname(text)}
+                value={firstname} />
+                
+              <Text style={styles.label}>Nom</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text)=>setLastname(text)}
+                value={lastname} />
+                
+              <Text style={styles.label}>Telephone</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text)=>setPhonenumber(text)}
+                value={phonenumber} />
+                
+              <Pressable onPress={() => buyPress(ticket_id)} style={{display: 'flex', flexWrap: 'wrap', marginBottom: 20}}>
+                <Text style={styles.custom_button}>Acheter</Text>
+              </Pressable>
+            </View>
+            <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
+          </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

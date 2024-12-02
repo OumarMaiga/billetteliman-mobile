@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable, TextInput } from 'react-native';
+import { useSelector } from 'react-redux';
 import { changePassword } from '../../../service/auth';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
@@ -16,9 +17,14 @@ const EditPassword = ({navigation}) => {
     
     if(global.debug >= GLOBAL.LOG.INFO) console.log("EditProfile::submitButtonPress()")
   
-    const response = await changePassword(user.id, {user_current_password: currentPassword, user_password: password, user_password_confirm: passwordConfirm});
+    const formData = new FormData(); 
+    formData.append("current-password", currentPassword);
+    formData.append("new-password", password);
+    formData.append("new-password-confirm", passwordConfirm);
     
-    if(response != undefined && response.success) {
+    const response = await changePassword(user.id, formData);
+    
+    if(response != undefined && response.error == null) {
       alert("Mise à jour du mot de passe effectué enregistré !");
     } else {
       alert("Echec de mise à jour");
