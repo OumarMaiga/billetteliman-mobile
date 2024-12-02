@@ -14,6 +14,7 @@ const Ticket = ({route}) => {
   const [firstname, setFirstname] = React.useState();
   const [lastname, setLastname] = React.useState();
   const [phonenumber, setPhonenumber] = React.useState();
+  const [ticketCount, setTicketCount] = React.useState(1);
   const [ticket, setTicket] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
@@ -86,21 +87,45 @@ const Ticket = ({route}) => {
           <ScrollView>
             <View style={styles.ticket_detail_container}>
               <Text style={styles.ticket_detail_station}>{ticket && ticket.partner.companyName}</Text>
-              <View style={styles.ticket_detail_item}>
-                <Text style={styles.ticket_detail_item_title}>Trajet</Text>
-                <Text style={styles.ticket_detail_item_text}>{ticket && ticket.travelDatas.from} - {ticket && ticket.travelDatas.to}</Text>
+              <View style={styles.ticket_detail_item_row}>
+                <View style={styles.ticket_detail_item}>
+                  <Text style={styles.ticket_detail_item_label}>Trajet</Text>
+                  <Text style={styles.ticket_detail_item_text}>{ticket && ticket.travelDatas.from} - {ticket && ticket.travelDatas.to}</Text>
+                </View>
+                <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
+                  <Text style={styles.ticket_detail_item_label}>Départ</Text>
+                  <Text style={[styles.ticket_detail_item_text,{textAlign: "right"}]}>{ticket && dateTimeFormat(day, ticket.travelDatas.departureAt)}</Text>
+                </View>
               </View>
-              <View style={styles.ticket_detail_item}>
-                <Text style={styles.ticket_detail_item_title}>Tarif</Text>
-                <Text style={styles.ticket_detail_item_text}>{ticket && priceFormat(ticket.price)}</Text>
+              <View style={styles.ticket_detail_item_row}>
+                <View style={styles.ticket_detail_item}>
+                  <Text style={styles.ticket_detail_item_label}>Distance</Text>
+                  <Text style={styles.ticket_detail_item_text}>1500km</Text>
+                </View>
+                <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
+                  <Text style={styles.ticket_detail_item_label}>Durée</Text>
+                  <Text style={styles.ticket_detail_item_text}>28h</Text>
+                </View>
               </View>
-              <View style={styles.ticket_detail_item}>
-                <Text style={styles.ticket_detail_item_title}>Depart</Text>
-                <Text style={styles.ticket_detail_item_text}>{ticket && dateTimeFormat(day, ticket.travelDatas.departureAt)}</Text>
+              <View style={styles.ticket_detail_item_row}>
+                <View style={styles.ticket_detail_item}>
+                  <Text style={styles.ticket_detail_item_label}>Tarif</Text>
+                  <Text style={[styles.ticket_detail_item_text,{alignItems: "flex-end"}]}>{ticket && priceFormat(ticket.price)}</Text>
+                </View>
+                <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
+                  <Text style={styles.ticket_detail_item_label}>Commission</Text>
+                  <Text style={[styles.ticket_detail_item_text,{textAlign: "right"}]}>{ticket && priceFormat(ticket.commission)}</Text>
+                </View>
               </View>
             </View>
             <View style={styles.ticket_detail_form_container}>
               <Text style={styles.ticket_detail_form_billet}>Informations du passager</Text>
+              
+              <TextInput
+                style={styles.input}
+                onChangeText={(text)=>setTicketCount(text)}
+                value={ticketCount} />
+
               <Text style={styles.label}>Prenom</Text>
               <TextInput
                 style={styles.input}

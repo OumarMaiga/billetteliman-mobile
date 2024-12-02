@@ -7,25 +7,29 @@ export default function({ticket, handelItemPress}) {
     
     return (
         ticket.items.map((ticketData, index) => (
-        <View style={styles.ticket_item} key={index}>
-            <Pressable style={styles.ticket_item_container}
+        <Pressable style={styles.ticket_item} key={index}
                 onPress={() => handelItemPress(ticketData.id, ticket.timestamp)}>
                 <View style={styles.ticket_item_top_container}>
-                    <View>
-                        <Text style={styles.ticket_trajet}>{ticketData.travelDatas.from} - {ticketData.travelDatas.to}</Text>
-                        <Text style={styles.ticket_trajet_date}>{dateTimeFormat(ticket.timestamp, ticketData.travelDatas.departureAt)}</Text>
-                    </View>
                     <Text style={styles.ticket_station}>{ticketData.partner.companyName}</Text>
+                    <Text style={styles.ticket_trajet_price}>{priceFormat(ticketData.price)}</Text>
+                </View>
+                <View style={styles.dashed_line} />
+                <View style={styles.ticket_trajet}>
+                    <View style={styles.ticket_depart}>
+                        <Text style={styles.ticket_depart_label}>Depart</Text>
+                        <Text style={styles.ticket_depart_value}>{ticketData.travelDatas.from}</Text>
+                    </View>
+                    <View style={styles.ticket_infos}></View>
+                    <View style={styles.ticket_destination}>
+                        <Text style={styles.ticket_destination_label}>Destination</Text>
+                        <Text style={styles.ticket_destination_value}>{ticketData.travelDatas.to}</Text>
+                    </View>
                 </View>
                 <View style={styles.ticket_item_bottom_container}>
-                    <Text style={styles.ticket_trajet_price}>{priceFormat(ticketData.price)}</Text>
-                    <Pressable
-                        onPress={() => handelItemPress(ticketData.id, ticket.timestamp)}>
-                        <Text style={styles.custom_button}>Acheter</Text>
-                    </Pressable>
+                    <Text style={styles.ticket_trajet_date}>{dateTimeFormat(ticket.timestamp, ticketData.travelDatas.departureAt)}</Text>
+                    <Text style={styles.custom_button}>Reservez</Text>
                 </View>
             </Pressable>
-        </View>
         ))
     )
 }
@@ -34,31 +38,58 @@ const styles = StyleSheet.create({
     ticket_item: {
         flex: 1,
         margin: 10,
-        height: 100,
-        flexDirection: "row",
         backgroundColor: "#EFEFEF",
         padding: 10,
-        borderWidth: 1,
-        borderColor: "#22812B",
-        borderRadius: 10
-    },
-    ticket_item_container: {
-        flex: 1,
-        marginLeft: 5,
-        justifyContent: "space-between"
-    },
-    ticket_trajet: {
-        fontSize: 18
-    },
-    ticket_station: {
-        fontSize: 16,
-        fontWeight: "bold"
     },
     ticket_item_top_container: {
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "flex-start"
-
+        alignItems: "center",
+    },
+    dashed_line: {
+        borderTopWidth: 2,
+        borderTopColor: '#AAAAAA',
+        borderStyle: 'dashed',
+        marginVertical: 10
+      },
+    ticket_trajet: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 10
+    },
+    ticket_station: {
+        fontSize: 20,
+        fontWeight: "bold"
+    },
+    ticket_trajet_price: {
+        fontSize: 18,
+        color: "#22812B",
+        fontWeight: 600
+    },
+    ticket_depart: {
+        flex: 1
+    },
+    ticket_depart_label: {
+        fontSize: 12,
+        color: "#979797"
+    },
+    ticket_depart_value: {
+        fontSize: 20,
+        fontWeigh: "bold"
+    },
+    ticket_destination: {
+        alignItems: "flex-end",
+        flex: 1
+    },
+    ticket_destination_label: {
+        fontSize: 12,
+        color: "#979797"
+    },
+    ticket_destination_value: {
+        fontSize: 20,
+        fontWeigh: "bold"
     },
     ticket_item_bottom_container: {
         flexDirection: "row",
@@ -66,11 +97,7 @@ const styles = StyleSheet.create({
         alignItems: "flex-end"
     },
     ticket_trajet_date: {
-        fontSize: 12,
-        fontWeight: '300'
-    },
-    ticket_trajet_price: {
-        fontSize: 18,
+        fontSize: 14,
     },
     custom_button: {
         backgroundColor: "#22812B",

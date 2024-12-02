@@ -92,24 +92,30 @@ const styles = StyleSheet.create({
 
     //Detail
     ticket_detail_container: {
-        padding: 20
+        padding: 20,
+        backgroundColor: "#EFEFEF"
     },
     ticket_detail_station: {
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: "bold",
         marginBottom: 20
     },
-    ticket_detail_item: {
+    ticket_detail_item_row: {
         flexDirection: "row",
+        justifyContent: "space-between",
         marginBottom: 10
     },
-    ticket_detail_item_title: {
-        fontSize: 20,
-        fontWeight: "600",
-        width: 100
+    ticket_detail_item: {
+        flex: 1,
+        marginHorizontal: 5
+    },
+    ticket_detail_item_label: {
+        fontSize: 12,
+        color: "#979797"
     },
     ticket_detail_item_text: {
         fontSize: 18,
+        fontWeight: "bold"
     },
     ticket_detail_form_container: {
         padding: 20

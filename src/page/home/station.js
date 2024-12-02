@@ -117,7 +117,15 @@ const Station = ({route, navigation}) => {
         ListHeaderComponent={
           <View style={{margin:10}}>
             <Text style={styles.title}>{station && station["1"].name}</Text>
-            <Text style={styles.ticket_available}>{stationticketsCount && stationticketsCount+" trajet(s) disponible"}</Text>
+            {stationticketsCount == 0 &&
+              <Text style={styles.ticket_available}>Pas de trajet disponible</Text>
+            }
+            {stationticketsCount == 1 &&
+              <Text style={styles.ticket_available}>Un trajet disponible</Text>
+            }
+            {stationticketsCount > 1 &&
+              <Text style={styles.ticket_available}>{stationticketsCount} trajets disponible</Text>
+            }
           </View>
         }
         data={stationTickets}

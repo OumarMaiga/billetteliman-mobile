@@ -87,7 +87,15 @@ const Search = ({route, navigation}) => {
       <View style={styles.ticket_available_container}>
         <Text style={styles.ticket_available_title}>{start_point} - {end_point}</Text>
         <Text style={styles.ticket_available_date}>{convertToDate(departure_date)}</Text>
-        <Text style={styles.ticket_available}>{ticketsSearchedCount} trajet(s) disponible</Text>
+        {ticketsSearchedCount == 0 &&
+          <Text style={styles.ticket_available}>Pas de trajet disponible</Text>
+        }
+        {ticketsSearchedCount == 1 &&
+          <Text style={styles.ticket_available}>Un trajet disponible</Text>
+        }
+        {ticketsSearchedCount > 1 &&
+          <Text style={styles.ticket_available}>{ticketsSearchedCount} trajets disponible</Text>
+        }
       </View>
       <TicketList tickets={ticketsSearched} ticketPress={ticketPress} />
       <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
