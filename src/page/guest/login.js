@@ -5,7 +5,8 @@ import { Picker } from '@react-native-picker/picker';
 import { login as loginService } from '../../../service/auth';
 import { getIdentifiers } from '../../../service/identifier';
 import { useDispatch } from "react-redux";
-import { login as loginState } from "../../../store/actions/user";
+import { login as loginState, logout } from "../../features/userSlice";
+
 import styles from './assets/style/';
 import "../../../data/global.js";
 import * as GLOBAL from "../../../data/global.js";
@@ -89,7 +90,7 @@ const Login = ({navigation}) => {
                 onValueChange={(itemValue, itemIndex) =>
                   setIdentifierSelected(itemValue)
                 }>
-                  {identifiers.map((identifier) => <Picker.Item label={identifier.identifier} value={identifier.id} /> )}
+                  {identifiers.map((identifier, index) => <Picker.Item key={index} label={identifier.identifier} value={identifier.id} /> )}
               </Picker>
               
               <Text style={styles.label}>Telephone</Text>

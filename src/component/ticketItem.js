@@ -37,7 +37,8 @@ export default function({ticket, handelItemPress}) {
 const styles = StyleSheet.create({
     ticket_item: {
         flex: 1,
-        margin: 10,
+        marginVertical: 5,
+        marginHorizontal: 10,
         backgroundColor: "#EFEFEF",
         padding: 10,
     },

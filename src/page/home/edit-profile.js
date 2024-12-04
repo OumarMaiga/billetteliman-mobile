@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { update } from "../../../store/actions/user";
+import { update } from "../../features/userSlice";
 import { updateUser } from '../../../service/auth';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";

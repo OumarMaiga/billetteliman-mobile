@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     ticket_detail_station: {
         fontSize: 24,
         fontWeight: "bold",
-        marginBottom: 20
+        marginBottom: 10
     },
     ticket_detail_item_row: {
         flexDirection: "row",
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     },
     ticket_detail_item: {
         flex: 1,
-        marginHorizontal: 5
     },
     ticket_detail_item_label: {
         fontSize: 12,
@@ -130,11 +129,9 @@ const styles = StyleSheet.create({
     //Profile
     profile_ticket_bought_container: {
         flexDirection: "row",
-        margin: 10,
         padding: 10,
-        borderWidth: 1,
-        borderColor: '#22812B',
-        borderRadius: 10
+        marginVertical: 5,
+        backgroundColor: '#EFEFEF',
     },
     profile_ticket_bought_left: {
         flex: 1,

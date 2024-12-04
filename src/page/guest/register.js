@@ -4,7 +4,7 @@ import { View, Text, SafeAreaView, TextInput, Button, ScrollView, Pressable, Key
 import { Picker } from '@react-native-picker/picker';
 import { register as registerService } from '../../../service/auth';
 import { useDispatch } from "react-redux";
-import { login as loginState } from "../../../store/actions/user";
+import { login as loginState } from "../../features/userSlice";
 import { getIdentifiers } from '../../../service/identifier';
 import * as GLOBAL from "../../../data/global.js";
 import styles from './assets/style/';

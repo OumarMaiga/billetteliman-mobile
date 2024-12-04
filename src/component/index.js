@@ -5,7 +5,7 @@ import { Ionicons } from 'react-native-vector-icons';
 import styles from './assets/style';
 import * as GLOBAL from '../../data/global';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../store/actions/user';
+import { logout } from '../features/userSlice';
 
 export const Logo = () => {
 

@@ -64,10 +64,13 @@ const Home = ({navigation}) => {
   
   
   const openBottomSheet = () => {
-    bottomSheetRef.current.expand();
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.expand();
+    }
   };
 
   const ticketPress = (ticket_id, day) => {
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::ticketPress()");
     navigation.navigate('Ticket', {
       "ticket_id": ticket_id,
       "day": day
@@ -75,12 +78,14 @@ const Home = ({navigation}) => {
   }
   
   const stationPress = (station_id) => {
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::stationPress()");
     navigation.navigate('Station', {
       "station_id": station_id
     });
   }
   
-  const prodilePress = () => {
+  const profilePress = () => {
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::profilePress()");
     navigation.navigate('Profile');
   }
 
@@ -93,72 +98,75 @@ const Home = ({navigation}) => {
   }
 
   const fetchCities = async () => {
-
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchCities()");
-    
-    setIsLoading(true);
-    
-    const response = await getCities();
-    
-    if (response != undefined && response.error == null) {
-      setCities(response.datas.citiesDatas);
-    } else {
-      setErrorMessage(response.error);
-      setIsErrorModalVisible(!isErrorModalVisible);
+    try {
+      if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchCities()");
+      setIsLoading(true);
+      const response = await getCities();
+  
+      if (response && !response.error) {
+        setCities(response.datas.citiesDatas);
+      } else {
+        throw new Error(response.error || "Erreur de récupération des villes");
+      }
+    } catch (error) {
+      console.error(error.message);
+      setErrorMessage(error.message);
+      setIsErrorModalVisible(true);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Home::fetchTickets()::response "+JSON.stringify(response));
   }
 
   const fetchTickets = async () => {
-
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchTickets()");
-    
-    setIsLoading(true);
-    
-    const formData = new FormData();
-    formData.append("is-available", 1);
-
-    const response = await getTickets(formData);
-    
-    if (response != undefined && response.error == null) {
-      const ticketAsArray = Object.entries(response.datas.searchResults.data).map(([key, value]) => ({
-        timestamp: key,
-        items: value
-      }));
-      setTickets(ticketAsArray);
-    } else {
-      setErrorMessage(response.error);
-      setIsErrorModalVisible(!isErrorModalVisible);
+    try {
+      if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchTickets()");      
+      setIsLoading(true);      
+      const formData = new FormData();
+      formData.append("is-available", 1);  
+      const response = await getTickets(formData);
+  
+      if (response && !response.error) {
+        const ticketAsArray = Object.entries(response.datas.searchResults.data).map(([key, value]) => ({
+          timestamp: key,
+          items: value
+        }));
+        setTickets(ticketAsArray);
+      } else {
+        throw new Error(response.error || "Erreur de récupération des tickets");
+      }
+    } catch (error) {
+      console.error(error.message);
+      setErrorMessage(error.message);
+      setIsErrorModalVisible(true);
+    } finally {
+      if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Home::fetchTickets()::response "+JSON.stringify(response));
+      setIsLoading(false);
     }
-    setIsLoading(false);
-
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Home::fetchTickets()::response "+JSON.stringify(response));
   }
 
   const fetchStations = async () => {
-
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchStations()");
-    
-    setIsLoading(true);
-
-    const formData = new FormData();
-    formData.append("details-types[]", 1);
-    formData.append("details-types[]", 2);
-    formData.append("details-types[]", 3);
-
-    const response = await getStations(formData);
-    
-    if (response != undefined && response.error == null) {
-      setStations(response.datas.partnersDetails);
-    } else {
-      setErrorMessage(response.error);
-      setIsErrorModalVisible(!isErrorModalVisible);
+    try {
+      if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchStations()");      
+      setIsLoading(true);
+      const formData = new FormData();
+      formData.append("details-types[]", 1);
+      formData.append("details-types[]", 2);
+      formData.append("details-types[]", 3);
+      const response = await getStations(formData);
+      
+      if (response && !response.error) {
+        setStations(response.datas.partnersDetails);
+      } else {
+        throw new Error(response.error || "Erreur de récupération des tickets");
+      }
+    } catch (error) {
+      console.error(error.message);
+      setErrorMessage(error.message);
+      setIsErrorModalVisible(true);
+    } finally {
+      setIsLoading(false);
+      if (global.debug >= GLOBAL.LOG.ROOT) console.log("Home::fetchStations()::response "+JSON.stringify(response));
     }
-    setIsLoading(false);
-
-    if (global.debug >= GLOBAL.LOG.ROOT) console.log("Home::fetchStations()::response "+JSON.stringify(response));
   }
 
   useLayoutEffect(() => {
@@ -167,7 +175,7 @@ const Home = ({navigation}) => {
       headerLeft: (props) => <Logo {...props}/>,
       headerRight: () => (
         <Pressable style={{ borderWidth: 1, borderColor: "#fff", borderRadius: 40 }}
-          onPress={prodilePress}
+          onPress={profilePress}
         >
           <Ionicons name="person-circle-sharp" size={36}/>
         </Pressable>
@@ -183,7 +191,7 @@ const Home = ({navigation}) => {
     fetchTickets();
     fetchStations();
 
-  }, []);
+  }, [navigation]);
   
   
   return (
@@ -203,6 +211,8 @@ const Home = ({navigation}) => {
                 <Text style={{ color: "#D9D9D9", fontSize: 18 }}>Recherche</Text>
             </Pressable>
           </View>
+        
+          <Pressable onPress={profilePress}><Text style={{textAlign:'center'}}>Profile</Text></Pressable>
         
           <StationList stations={stations} stationPress={stationPress} />
         </>
@@ -226,8 +236,8 @@ const Home = ({navigation}) => {
                 onValueChange={(itemValue) => setStart_point(itemValue)}
               >
                 <Picker.Item label="Bamako" value="Bamako" />
-                {cities.map(city => (
-                  <Picker.Item label={city.name} value={city.name} />
+                {cities.map((city,index) => (
+                  <Picker.Item key={index} label={city.name} value={city.name} />
                 ))}
               </Picker>
             </View>
@@ -239,8 +249,8 @@ const Home = ({navigation}) => {
               style={styles.picker}
             >
               <Picker.Item label="" value="" />
-              {cities.map(city => (
-                <Picker.Item label={city.name} value={city.name} />
+              {cities.map((city,index) => (
+                <Picker.Item key={index} label={city.name} value={city.name} />
               ))}
             </Picker>
           </View>
@@ -248,12 +258,14 @@ const Home = ({navigation}) => {
           <Text style={styles.label}>Date</Text>
           <Pressable style={[styles.input,{justifyContent: 'center'}]}
             onPress={showDatePicker}>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={dateSelected}
-              onCancel={hideDatePicker}
-            />
+              {isDatePickerVisible && (
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={dateSelected}
+                onCancel={hideDatePicker}
+              />
+              )}
             <Text style={{fontSize: 18}}>{departure_date}</Text>
           </Pressable>
             

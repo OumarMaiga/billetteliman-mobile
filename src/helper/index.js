@@ -13,7 +13,7 @@ export const convertToDate = (date) => {
 export const dateTimeFormat = (timestamp, hour) => {
     let date = convertToDate(new Date(timestamp*1000));
     hour = hour.slice(0,5);
-    return  date + " à " + hour;
+    return  date + hour;
 }
 
 // Formater la date en short lisible Ex: Dim 21 janv
@@ -27,7 +27,7 @@ export const convertToDateHour = (date) => {
     let mn = date.getMinutes();
     let dayArray = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
     let monthArray = ["janv", "févr", "mars", "avril", "mai", "juin", "juill", "août", "sept", "oct", "nov", "déc"];
-    return dayArray[day] + ' ' + (d <= 9 ? '0' + d : d) + ' ' + monthArray[m] + ' ' + (y != new Date().getFullYear() ? y : "") + ' à ' + (h <= 9 ? '0' + h : h) +'h' + (mn <= 9 ? '0' + mn : mn)
+    return dayArray[day] + ' ' + (d <= 9 ? '0' + d : d) + ' ' + monthArray[m] + (y != new Date().getFullYear() ? y : "") + ' à ' + (h <= 9 ? '0' + h : h) +'h' + (mn <= 9 ? '0' + mn : mn)
 }
 
 

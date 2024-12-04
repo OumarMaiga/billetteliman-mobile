@@ -88,9 +88,9 @@ export const getTicketsSearched = async (payload, param) => {
 
 }
 
-export const getTicketBuyList = async(user_id) => {
+export const getBoughtTicketList = async(user_id) => {
     
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getTicketBuyList()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getBoughtTicketList()");
     
     try {
         const response = await fetch(`${global.SERVER_ADDRESS}/users/bought-tickets/${user_id}`, {
@@ -99,34 +99,34 @@ export const getTicketBuyList = async(user_id) => {
 
         const body = await response.json();
 
-        if (global.debug >= GLOBAL.LOG.TRACE) console.log("TicketService:getTicketBuyList()::body", body);
+        if (global.debug >= GLOBAL.LOG.TRACE) console.log("TicketService:getBoughtTicketList()::body", body);
 
         return body;
 
     } catch (error) {
-        if (global.debug >= GLOBAL.LOG.INFO) console.error("TicketService:getTicketBuyList()::catch", error);
+        if (global.debug >= GLOBAL.LOG.INFO) console.error("TicketService:getBoughtTicketList()::catch", error);
     }
 
 } 
 
-export const buyTicket = async(ticket_id, payload) => {
+export const boughtTicket = async(ticket_id, payload) => {
     
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:buyTicket()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:boughtTicket()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/ticket/buy/${ticket_id}/?user_id=${payload.user_id}`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/ticket/bought/${ticket_id}/?user_id=${payload.user_id}`, {
             method: 'POST',
             body: payload
         });
 
         const body = await response.json();
 
-        if (global.debug >= GLOBAL.LOG.TRACE) console.log("TicketService:buyTicket()::body", body);
+        if (global.debug >= GLOBAL.LOG.TRACE) console.log("TicketService:boughtTicket()::body", body);
 
         return body;
 
     } catch (error) {
-        if (global.debug >= GLOBAL.LOG.INFO) console.error("TicketService:buyTicket()::catch", error);
+        if (global.debug >= GLOBAL.LOG.INFO) console.error("TicketService:boughtTicket()::catch", error);
     }
 
 } 
