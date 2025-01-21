@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, Pressable } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
 import { ProfileHeader } from '../../component';
 import { useSelector } from 'react-redux';
 import { getBoughtTicketList } from '../../../service/ticket';

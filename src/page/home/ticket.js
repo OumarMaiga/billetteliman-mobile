@@ -7,6 +7,7 @@ import * as GLOBAL from "../../../data/global.js";
 import { dateTimeFormat, priceFormat } from '../../helper';
 import { useSelector } from 'react-redux';
 import ErrorModal from '../../component/ErrorModal';
+import { Loading } from '../../component/Loading';
 
 const Ticket = ({route}) => {
   const { ticket_id, day } = route.params;
@@ -82,38 +83,39 @@ const Ticket = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior="padding" 
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}>
+      { ticket && (
+        <KeyboardAvoidingView behavior="padding" 
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}>
           <ScrollView>
             <View style={styles.ticket_detail_container}>
               <Text style={styles.ticket_detail_station}>{ticket && ticket.partner.companyName}</Text>
               <View style={styles.ticket_detail_item_row}>
                 <View style={styles.ticket_detail_item}>
-                  <Text style={styles.ticket_detail_item_label}>Trajet</Text>
+                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Trajet'}</Text>
                   <Text style={styles.ticket_detail_item_text}>{ticket && ticket.travelDatas.from} - {ticket && ticket.travelDatas.to}</Text>
                 </View>
                 <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
-                  <Text style={styles.ticket_detail_item_label}>Départ</Text>
+                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Départ'}</Text>
                   <Text style={[styles.ticket_detail_item_text,{textAlign: "right"}]}>{ticket && dateTimeFormat(day, ticket.travelDatas.departureAt)}</Text>
                 </View>
               </View>
               <View style={styles.ticket_detail_item_row}>
                 <View style={styles.ticket_detail_item}>
-                  <Text style={styles.ticket_detail_item_label}>Distance</Text>
-                  <Text style={styles.ticket_detail_item_text}>1500km</Text>
+                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Distance'}</Text>
+                  <Text style={styles.ticket_detail_item_text}>{ticket && '1500km'}</Text>
                 </View>
                 <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
-                  <Text style={styles.ticket_detail_item_label}>Durée</Text>
-                  <Text style={styles.ticket_detail_item_text}>28h</Text>
+                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Durée'}</Text>
+                  <Text style={styles.ticket_detail_item_text}>{ticket && '28h'}</Text>
                 </View>
               </View>
               <View style={styles.ticket_detail_item_row}>
                 <View style={styles.ticket_detail_item}>
-                  <Text style={styles.ticket_detail_item_label}>Tarif</Text>
+                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Tarif'}</Text>
                   <Text style={[styles.ticket_detail_item_text,{alignItems: "flex-end"}]}>{ticket && priceFormat(ticket.price)}</Text>
                 </View>
                 <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
-                  <Text style={styles.ticket_detail_item_label}>Commission</Text>
+                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Commission'}</Text>
                   <Text style={[styles.ticket_detail_item_text,{textAlign: "right"}]}>{ticket && priceFormat(ticket.commission)}</Text>
                 </View>
               </View>
@@ -150,7 +152,9 @@ const Ticket = ({route}) => {
             </View>
             <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
           </ScrollView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      )}
+      <Loading isLoading={isLoading}/>
     </SafeAreaView>
   );
 }

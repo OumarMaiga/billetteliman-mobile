@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     //All
     container: {
-        flex: 1
+        flex: 1,
     },
     title: {
         fontWeight: "bold",
@@ -79,16 +79,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         borderRadius: 5
     },
-    book_container: {
-        padding: 16,
-        backgroundColor: '#fff'
-    },
-    book_title: {
-        fontSize: 22,
-        fontWeight: "bold",
-        marginBottom: 20
-    },
-
 
     //Detail
     ticket_detail_container: {

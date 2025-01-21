@@ -1,13 +1,13 @@
 import React from 'react';
 import '../../data/global';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { dateTimeFormat, priceFormat } from '../helper';
 
-export default function({ticket, handelItemPress}) {
+export default function({ticket, handelItemPress, isTicketsLoading}) {
     
     return (
         ticket.items.map((ticketData, index) => (
-        <Pressable style={styles.ticket_item} key={index}
+        <TouchableOpacity style={styles.ticket_item} key={index}
                 onPress={() => handelItemPress(ticketData.id, ticket.timestamp)}>
                 <View style={styles.ticket_item_top_container}>
                     <Text style={styles.ticket_station}>{ticketData.partner.companyName}</Text>
@@ -19,7 +19,6 @@ export default function({ticket, handelItemPress}) {
                         <Text style={styles.ticket_depart_label}>Depart</Text>
                         <Text style={styles.ticket_depart_value}>{ticketData.travelDatas.from}</Text>
                     </View>
-                    <View style={styles.ticket_infos}></View>
                     <View style={styles.ticket_destination}>
                         <Text style={styles.ticket_destination_label}>Destination</Text>
                         <Text style={styles.ticket_destination_value}>{ticketData.travelDatas.to}</Text>
@@ -29,7 +28,7 @@ export default function({ticket, handelItemPress}) {
                     <Text style={styles.ticket_trajet_date}>{dateTimeFormat(ticket.timestamp, ticketData.travelDatas.departureAt)}</Text>
                     <Text style={styles.custom_button}>Reservez</Text>
                 </View>
-            </Pressable>
+            </TouchableOpacity>
         ))
     )
 }

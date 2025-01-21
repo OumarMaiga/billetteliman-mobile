@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, Pressable, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, Pressable, FlatList } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { Logo } from '../../component';
 import { getTicketsSearched } from '../../../service/ticket';
@@ -8,6 +8,8 @@ import * as GLOBAL from "../../../data/global.js";
 import { convertToDate } from '../../helper';
 import TicketList from '../../component/ticketList';
 import ErrorModal from '../../component/ErrorModal';
+import { Loading } from '../../component/Loading';
+import TicketItem from '../../component/ticketItem';
 
 const Search = ({route, navigation}) => {
   
@@ -84,21 +86,30 @@ const Search = ({route, navigation}) => {
   
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.ticket_available_container}>
-        <Text style={styles.ticket_available_title}>{start_point} - {end_point}</Text>
-        <Text style={styles.ticket_available_date}>{convertToDate(departure_date)}</Text>
-        {ticketsSearchedCount == 0 &&
-          <Text style={styles.ticket_available}>Pas de trajet disponible</Text>
+      { ticketsSearched && (
+      <FlatList 
+        ListHeaderComponent={
+        <View style={styles.ticket_available_container}>
+          <Text style={styles.ticket_available_title}>{start_point} - {end_point}</Text>
+          <Text style={styles.ticket_available_date}>{convertToDate(departure_date)}</Text>
+          {ticketsSearchedCount == 0 &&
+            <Text style={styles.ticket_available}>Pas de trajet disponible</Text>
+          }
+          {ticketsSearchedCount == 1 &&
+            <Text style={styles.ticket_available}>1 trajet disponible</Text>
+          }
+          {ticketsSearchedCount > 1 &&
+            <Text style={styles.ticket_available}>{ticketsSearchedCount} trajets disponible</Text>
+          }
+        </View>
         }
-        {ticketsSearchedCount == 1 &&
-          <Text style={styles.ticket_available}>Un trajet disponible</Text>
-        }
-        {ticketsSearchedCount > 1 &&
-          <Text style={styles.ticket_available}>{ticketsSearchedCount} trajets disponible</Text>
-        }
-      </View>
-      <TicketList tickets={ticketsSearched} ticketPress={ticketPress} />
+        data={ticketsSearched}
+        renderItem={({item}) => <TicketItem ticket={item} handelItemPress={ticketPress} />}
+        keyExtractor={(item,index) => index} />
+      )}
+      <Loading isLoading={isLoading}/>
       <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
+        
     </SafeAreaView>
   );
 }

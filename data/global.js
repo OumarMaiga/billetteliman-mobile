@@ -45,7 +45,7 @@ global.currentUser = {
 //global.SERVER_ADDRESS = 'http://billetteliman.local';
 
 /* ngrok */
-global.SERVER_ADDRESS = 'https://5781-2c0f-f900-1002-850-8c55-b2d3-2f99-7a0.ngrok-free.app/api';
+global.SERVER_ADDRESS = 'https://6ff6-197-155-155-88.ngrok-free.app/api';
 
 global.server_off = false;
 global.server_status = null;

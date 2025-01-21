@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { Text, SafeAreaView, ScrollView, Pressable, View } from 'react-native';
+import { Text, SafeAreaView, TouchableOpacity, View, FlatList } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { Logo } from '../../component';
 import { getStationTickets } from '../../../service/ticket';
 import { getStation } from '../../../service/partner';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
-import TicketList from '../../component/ticketList';
 import ErrorModal from '../../component/ErrorModal';
-import { FlatList } from 'react-native-gesture-handler';
 import TicketItem from '../../component/ticketItem';
+import { Loading } from '../../component/Loading';
 
 const Station = ({route, navigation}) => {
   
@@ -93,11 +92,11 @@ const Station = ({route, navigation}) => {
       title: "",
       headerLeft: (props) => <Logo {...props}/>,
       headerRight: () => (
-        <Pressable style={{ borderWidth: 1, borderColor: "#fff", borderRadius: 40 }}
+        <TouchableOpacity style={{ borderWidth: 1, borderColor: "#fff", borderRadius: 40 }}
           onPress={prodilePress}
         >
           <Ionicons name="person-circle-sharp" size={36}/>
-        </Pressable>
+        </TouchableOpacity>
       ),
     });
   }, [navigation]);
@@ -111,8 +110,10 @@ const Station = ({route, navigation}) => {
 
   }, []);
   
+  
   return (
     <SafeAreaView style={styles.container}>
+      { (stationTickets && station) && (
       <FlatList
         ListHeaderComponent={
           <View style={{margin:10}}>
@@ -131,6 +132,8 @@ const Station = ({route, navigation}) => {
         data={stationTickets}
         renderItem={({item}) => <TicketItem ticket={item} handelItemPress={ticketPress} />}
         keyExtractor={(item,index) => index} />
+      )}
+      <Loading isLoading={isLoading} />
       <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
     </SafeAreaView>
   );

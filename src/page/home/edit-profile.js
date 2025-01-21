@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable, TextInput } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { update } from "../../features/userSlice";
 import { updateUser } from '../../../service/auth';
 import styles from './assets/style/index';

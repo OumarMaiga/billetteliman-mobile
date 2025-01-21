@@ -27,7 +27,7 @@ export const getIdentifiers = async() => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("IdentifierService:getIdentifiers()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/identifiers/list`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/identifiers/details`, {
             method: 'POST'
         });
 

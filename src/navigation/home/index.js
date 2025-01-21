@@ -10,6 +10,7 @@ import EditPassword from '../../page/home/edit-password.js';
 import Ticket from '../../page/home/ticket.js';
 import Station from '../../page/home/station.js';
 import Setting from '../../page/home/setting.js';
+import SearchBottomSheet from '../../page/home/search-bottom-sheet.js';
 
 // ** Home ** //
 const HomeStack = createNativeStackNavigator();
@@ -17,6 +18,11 @@ export const HomeStackScreen = () => {
     return (
         <HomeStack.Navigator initialRouteName='Home'>
             <HomeStack.Screen name="Home" component={Home} />
+            <HomeStack.Screen name="SearchBottom" component={SearchBottomSheet} options={{
+                headerShown: false,
+                presentation: 'transparentModal', 
+                animation: 'slide_from_bottom'
+            }}/>
             <HomeStack.Screen name="Ticket" component={Ticket} />
             <HomeStack.Screen name="Station" component={Station} />
             <HomeStack.Screen name="Search" component={Search} />
