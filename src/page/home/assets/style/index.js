@@ -15,10 +15,12 @@ const styles = StyleSheet.create({
     },
     input: {
         paddingLeft: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
         height: 40,
         borderWidth: 1,
         borderColor: '#D9D9D9',
-        fontSize: 18,
+        fontSize: 16,
         borderRadius: 5,
         marginBottom: 10,
         justifyContent: 'center',
@@ -91,9 +93,11 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     ticket_detail_item_row: {
+        flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: 10
+        flexWrap: "wrap",
+        marginBottom: 10,
     },
     ticket_detail_item: {
         flex: 1,
@@ -115,6 +119,28 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "600"
     },
+    ticket_detail_qr_container: {
+        padding: 20,
+        flex: 1,
+        marginTop: 10,
+        marginBottom: 20
+    },
+    qr_code_image: {
+        justifyContent: "center",
+        alignSelf: "center",
+        height: 250,
+        width: 250
+    },
+    ticket_detail_nb_title: {
+        color: "red",
+        fontWeight: "bold",
+        fontSize: 16
+    },
+    ticket_detail_nb_text: {
+        color: "black",
+        fontWeight: "normal",
+        fontSize: 16
+    },
 
     //Profile
     profile_ticket_bought_container: {
@@ -123,14 +149,8 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         backgroundColor: '#EFEFEF',
     },
-    profile_ticket_bought_left: {
+    profile_ticket_bought: {
         flex: 1,
-        fontSize: 12
-    },
-    profile_ticket_bought_right: {
-        flex: 1,
-        fontSize: 12,
-        textAlign: "right"
     },
     profile_ticket_bought_image: {
         width: 40, 

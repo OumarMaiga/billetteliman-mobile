@@ -2,7 +2,7 @@ import "../data/global.js";
 import * as GLOBAL from "../data/global.js";
 
 export const updateUser = async(user_id, payload) => {
-    
+    console.log(payload);
     if (global.debug >= GLOBAL.LOG.INFO) console.log("AuthService:updateUser()");
     
     try {

@@ -88,9 +88,31 @@ export const getTicketsSearched = async (payload, param) => {
 
 }
 
+export const getBoughtTicket = async(boughtTicketId) => {
+    
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getBoughtTicket()");
+    
+    try {
+        console.log(`${global.SERVER_ADDRESS}/bought-ticket/details/${boughtTicketId}`);
+        const response = await fetch(`${global.SERVER_ADDRESS}/bought-ticket/details/${boughtTicketId}`, {
+            method: 'POST'
+        });
+
+        const body = await response.json();
+
+        if (global.debug >= GLOBAL.LOG.TRACE) console.log("TicketService:getBoughtTicket()::body", body);
+
+        return body;
+
+    } catch (error) {
+        if (global.debug >= GLOBAL.LOG.INFO) console.error("TicketService:getBoughtTicket()::catch", error);
+    }
+
+} 
+
 export const getBoughtTicketList = async(user_id) => {
     
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getBoughtTicketList()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:getBoughtTicket()");
     
     try {
         const response = await fetch(`${global.SERVER_ADDRESS}/users/bought-tickets/${user_id}`, {
@@ -114,7 +136,7 @@ export const boughtTicket = async(ticket_id, payload) => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("TicketService:boughtTicket()");
     
     try {
-        const response = await fetch(`${global.SERVER_ADDRESS}/ticket/bought/${ticket_id}/?user_id=${payload.user_id}`, {
+        const response = await fetch(`${global.SERVER_ADDRESS}/bought-ticket/${ticket_id}`, {
             method: 'POST',
             body: payload
         });

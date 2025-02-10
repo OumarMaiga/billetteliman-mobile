@@ -12,7 +12,6 @@ interface ErrorModalProps {
 const ErrorModal: React.FC<ErrorModalProps> = ({isVisible, toggleModal, message=""}) => {
   return (
     <Modal isVisible={isVisible}>
-
       <View style={styles.modalContent}>
         <View style={styles.icon_container}>
           <Ionicons name='close' size={32} color="#FFF" />

@@ -2,12 +2,14 @@ import * as React from 'react';
 import { View, Text, SafeAreaView, TextInput, Button, ScrollView, Pressable, KeyboardAvoidingView, 
   TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { register as registerService } from '../../../service/auth';
+import { register } from '../../../service/auth';
 import { useDispatch } from "react-redux";
 import { login as loginState } from "../../features/userSlice";
 import { getIdentifiers } from '../../../service/identifier';
 import * as GLOBAL from "../../../data/global.js";
 import styles from './assets/style/';
+import ErrorModal from '../../component/ErrorModal';
+import { Loading } from '../../component/Loading';
 
 const Register = ({navigation}) => {
 
@@ -16,8 +18,16 @@ const Register = ({navigation}) => {
   const [phone, setPhone] = React.useState();
   const [password, setPassword] = React.useState();
   const [passwordConfirm, setPasswordConfirm] = React.useState();
-  const [identifiers, setIdentifiers] = useState([]);
-  const [identifierSelected, setIdentifierSelected] = useState(identifiers[0].value);
+  const [identifiers, setIdentifiers] = React.useState([]);
+  const [identifierSelected, setIdentifierSelected] = React.useState( identifiers.length > 0 ?? identifiers[0].value);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  
+  const toggleErrorModal = () => {
+    setIsErrorModalVisible(!isErrorModalVisible);
+  };
+
   /*const pickerRef = useRef();
 
   function open() {
@@ -27,7 +37,7 @@ const Register = ({navigation}) => {
   function close() {
     pickerRef.current.blur();
   }*/
-  useEffect(() => {
+  React.useEffect(() => {
 
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Register::useEffect()");
 
@@ -44,7 +54,7 @@ const Register = ({navigation}) => {
     const response = await getIdentifiers();
     
     if (response != undefined && response.error == null) {
-      setIdentifiers(response.data);
+      setIdentifiers(response.datas.identifiers);
     }
     setIsLoading(false);
 
@@ -55,28 +65,32 @@ const Register = ({navigation}) => {
     
     if(global.debug >= GLOBAL.LOG.INFO) console.log("Register::submitButtonPress()")
   
+    setIsLoading(true);
+  
     if(password == "" || password != passwordConfirm) {
-      alert("Mot de passe non conforme !");
-      return;
+      setErrorMessage("Mot de passe non conforme !");
+      setIsErrorModalVisible(!isErrorModalVisible);
+      return false;
     }
 
     const formData = new FormData();
     formData.append("user-phonenumber", phone);
     formData.append("user-password", password);
     formData.append("country-identifier", identifierSelected);
-
-    const response = await registerService(formData);
+    
+    const response = await register(formData);
     
     if(response != undefined && response.error == null) {
       dispatch(loginState(response.datas.accountDatas));
     } else {
-      alert(response.error);
+      setErrorMessage(response.error);
+      setIsErrorModalVisible(!isErrorModalVisible);
     }
-    
+    setIsLoading(false);
   }
 
   const connexionLinkPress = () => {
-    navigation.navigate('Register');
+    navigation.navigate('Login');
   }
 
     return (
@@ -87,13 +101,16 @@ const Register = ({navigation}) => {
             <ScrollView style={{margin: 20}}>
               <Text style={[styles.title,{marginTop: 80, marginBottom: 20}]}>Inscrivez-vous</Text>
               <Text style={styles.label}>Pays</Text>
-              <Picker
-                selectedValue={identifierSelected}
-                onValueChange={(itemValue, itemIndex) =>
-                  setIdentifierSelected(itemValue)
-                }>
-                  {identifiers.map((identifier) => <Picker.Item label={identifier.identifier} value={identifier.id} /> )}
-              </Picker>
+              <View style={styles.input}>
+                <Picker
+                  selectedValue={identifierSelected}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setIdentifierSelected(itemValue)
+                  }
+                  style={styles.picker}>
+                    {identifiers.map((identifier, index) => <Picker.Item key={index} label={identifier.identifier} value={identifier.identifier} /> )}
+                </Picker>
+              </View>
               <Text style={styles.label}>Téléphone</Text>
               <TextInput
                 style={styles.input}
@@ -120,6 +137,8 @@ const Register = ({navigation}) => {
             </ScrollView>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
+        <Loading isLoading={isLoading}/>
+        <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
       </SafeAreaView>
     );
 }

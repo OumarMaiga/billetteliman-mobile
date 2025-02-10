@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { Text, SafeAreaView, TouchableOpacity, View, FlatList } from 'react-native';
-import { Ionicons } from 'react-native-vector-icons';
-import { Logo } from '../../component';
 import { getStationTickets } from '../../../service/ticket';
 import { getStation } from '../../../service/partner';
 import styles from './assets/style/index';
@@ -86,20 +84,6 @@ const Station = ({route, navigation}) => {
 
     if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Station::fetchStation()::response "+JSON.stringify(response));
   }
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "",
-      headerLeft: (props) => <Logo {...props}/>,
-      headerRight: () => (
-        <TouchableOpacity style={{ borderWidth: 1, borderColor: "#fff", borderRadius: 40 }}
-          onPress={prodilePress}
-        >
-          <Ionicons name="person-circle-sharp" size={36}/>
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
 
   React.useEffect(() => {
 

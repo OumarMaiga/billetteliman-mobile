@@ -58,10 +58,14 @@ const styles = StyleSheet.create({
     input: {
         paddingLeft: 5,
         marginBottom: 10,
-        height: 40,
+        height: 50,
         borderWidth: 1,
         borderColor: '#D9D9D9',
+        justifyContent: "center",
         fontSize: 16,
+    },
+    picker: {
+        height: 50,
     },
     link: {
         color: '#0000EE'

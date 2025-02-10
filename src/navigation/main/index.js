@@ -4,15 +4,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeStackScreen } from '../home/index.js';
 import { GuestStackScreen } from '../guest/index.js';
 import { useSelector } from 'react-redux';
+import { createURL } from 'expo-linking'
 
 const Stack = createNativeStackNavigator();
+
+const prefix = createURL('/');
 
 const Navigation = () =>  {
     
     const isAuthenticated = useSelector((state) => state.isAuthenticated);
     
+    const linking = {
+        prefixes: [prefix],
+    };
+
     return (
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
             { isAuthenticated == true ? (
                 <Stack.Navigator>
                     <Stack.Screen name="Home_" component={HomeStackScreen} options={{ headerShown: false }}/>

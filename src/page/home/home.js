@@ -1,7 +1,6 @@
-import { useState, useLayoutEffect, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
-import { Logo } from '../../component';
 import { getTickets } from '../../../service/ticket';
 import { getStations } from '../../../service/partner';
 import styles from './assets/style/index';
@@ -49,14 +48,6 @@ const Home = ({navigation}) => {
     navigation.navigate('SearchBottom');
   }
 
-  const searchPress = () => {    
-    navigation.navigate('Search', {
-      'start_point': start_point,
-      'end_point': end_point,
-      'departure_date': departure_date
-    });
-  }
-
   const fetchTickets = async () => {
     try {
       if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::fetchTickets()");      
@@ -75,7 +66,6 @@ const Home = ({navigation}) => {
         throw new Error((response != undefined && response.error) || "Erreur de récupération des tickets");
       }
     } catch (error) {
-      console.error(error.message);
       setErrorMessage(error.message);
       setIsErrorModalVisible(true);
     } finally {
@@ -108,19 +98,6 @@ const Home = ({navigation}) => {
       if (global.debug >= GLOBAL.LOG.ROOT) console.log("Home::fetchStations()::response "+JSON.stringify(response));
     }
   }
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "",
-      headerLeft: (props) => <Logo {...props}/>,
-      headerRight: () => (
-        <TouchableOpacity style={{ borderWidth: 1, borderColor: "#fff", borderRadius: 40 }}
-          onPress={profilePress}>
-          <Ionicons name="person-circle-sharp" size={36}/>
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
 
   useEffect(() => {
 

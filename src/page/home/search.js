@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, Pressable, FlatList } from 'react-native';
-import { Ionicons } from 'react-native-vector-icons';
-import { Logo } from '../../component';
 import { getTicketsSearched } from '../../../service/ticket';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
 import { convertToDate } from '../../helper';
-import TicketList from '../../component/ticketList';
 import ErrorModal from '../../component/ErrorModal';
 import { Loading } from '../../component/Loading';
 import TicketItem from '../../component/ticketItem';
@@ -62,20 +59,6 @@ const Search = ({route, navigation}) => {
 
     if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Search::fetchTicketsSearched()::response "+JSON.stringify(response));
   }
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "",
-      headerLeft: (props) => <Logo {...props}/>,
-      headerRight: () => (
-        <Pressable style={{ borderWidth: 1, borderColor: "#fff", borderRadius: 40 }}
-          onPress={prodilePress}
-        >
-          <Ionicons name="person-circle-sharp" size={36}/>
-        </Pressable>
-      ),
-    });
-  }, [navigation]);
 
   React.useEffect(() => {
 
