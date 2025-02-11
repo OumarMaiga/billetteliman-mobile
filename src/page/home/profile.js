@@ -11,7 +11,7 @@ import { Loading } from '../../component/Loading';
 
 const Profile = ({navigation}) => {
     
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
 
   const [boughtTicketList, setBoughtTicketList] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);

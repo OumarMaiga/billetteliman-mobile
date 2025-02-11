@@ -24,7 +24,7 @@ const BoughtTicket = ({route, navigation}) => {
   const [isSuccessModalVisible, setIsSuccessModalVisible] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
 
   const toggleErrorModal = () => {
     setIsErrorModalVisible(!isErrorModalVisible);

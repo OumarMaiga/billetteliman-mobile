@@ -12,7 +12,7 @@ import { getIdentifiers } from '../../../service/identifier';
 
 const EditProfile = ({navigation}) => {
   
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
   
   const [firstname, setFirstname] = React.useState(user != undefined ? user.firstname : "");
   const [lastname, setLastname] = React.useState(user != undefined ? user.lastname : "");

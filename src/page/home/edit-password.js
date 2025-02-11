@@ -7,7 +7,7 @@ import * as GLOBAL from "../../../data/global.js";
 
 const EditPassword = ({navigation}) => {
   
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
 
   const [currentPassword, setCurrentPassword] = React.useState();
   const [password, setPassword] = React.useState();

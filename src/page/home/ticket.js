@@ -26,8 +26,8 @@ const Ticket = ({route, navigation}) => {
   const [isSuccessModalVisible, setIsSuccessModalVisible] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
 
-  const user = useSelector((state) => state.user);
-
+  const user = useSelector((state) => state.user.user);
+  
   const toggleErrorModal = () => {
     setIsErrorModalVisible(!isErrorModalVisible);
   };
@@ -68,7 +68,7 @@ const Ticket = ({route, navigation}) => {
     formData.append("day", day);
     formData.append("potential-payer", user.id);
     formData.append("deeplink", "exp://192.168.1.27:8081");
-
+  
     const response = await boughtTicket(ticket_id, formData);
     
     if(response != undefined && response.error == null) {
