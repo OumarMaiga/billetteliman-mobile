@@ -18,32 +18,37 @@ import { useNavigation } from '@react-navigation/native';
 import Payment from '../../page/home/payment.js';
 import BoughtTicket from '../../page/home/bought-ticket.js';
 
-// ** Home ** //
-const HomeStack = createNativeStackNavigator();
 export const HomeStackScreen = () => {
-  const profilePress = () => {
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::profilePress()");
+  
+  const ProfileButton = () => {  
     const navigation = useNavigation();
-    navigation.navigate('Profile');
-  }
+    
+    const profilePress = () => {
+      if (global.debug >= GLOBAL.LOG.INFO) console.log("ProfileButton::profilePress()");
+      navigation.navigate('Profile');
+    }
+
+    return (
+      <TouchableOpacity onPress={profilePress}
+        style={{
+          borderWidth: 1,
+          borderColor: '#fff',
+          borderRadius: 40,
+          padding: 4,
+        }}>
+        <Ionicons name="person-circle-sharp" size={36} color="#000" />
+      </TouchableOpacity>
+    );
+  };
+  
+  // ** Home ** //
+  const HomeStack = createNativeStackNavigator();
     return (
         <HomeStack.Navigator initialRouteName='Home'>
             <HomeStack.Screen name="Home" component={Home} options={{
                 title: '',
                 headerLeft: (props) => <Logo {...props} />,
-                headerRight: () => (
-                  <TouchableOpacity
-                    style={{
-                      borderWidth: 1,
-                      borderColor: '#fff',
-                      borderRadius: 40,
-                      padding: 4,
-                    }}
-                    onPress={profilePress}
-                  >
-                    <Ionicons name="person-circle-sharp" size={36} color="#000" />
-                  </TouchableOpacity>
-                ),
+                headerRight: () => <ProfileButton/>,
             }} />
             <HomeStack.Screen name="SearchBottom" component={SearchBottomSheet} options={{
                 headerShown: false,
@@ -54,36 +59,12 @@ export const HomeStackScreen = () => {
             <HomeStack.Screen name="Station" component={Station} options={{
                 title: '',
                 headerLeft: (props) => <Logo {...props} />,
-                headerRight: () => (
-                  <TouchableOpacity
-                    style={{
-                      borderWidth: 1,
-                      borderColor: '#fff',
-                      borderRadius: 40,
-                      padding: 4,
-                    }}
-                    onPress={profilePress}
-                  >
-                    <Ionicons name="person-circle-sharp" size={36} color="#000" />
-                  </TouchableOpacity>
-                ),
+                headerRight: () => <ProfileButton/>,
             }} />
             <HomeStack.Screen name="Search" component={Search} options={{
                 title: '',
                 headerLeft: (props) => <Logo {...props} />,
-                headerRight: () => (
-                  <TouchableOpacity
-                    style={{
-                      borderWidth: 1,
-                      borderColor: '#fff',
-                      borderRadius: 40,
-                      padding: 4,
-                    }}
-                    onPress={profilePress}
-                  >
-                    <Ionicons name="person-circle-sharp" size={36} color="#000" />
-                  </TouchableOpacity>
-                ),
+                headerRight: () => <ProfileButton/>,
             }} />
             <HomeStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
             <HomeStack.Screen name="EditProfile" component={EditProfile} options={{ title: '', }} />

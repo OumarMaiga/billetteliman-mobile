@@ -22,13 +22,13 @@ const Profile = ({navigation}) => {
     setIsErrorModalVisible(!isErrorModalVisible);
   };
 
-  const fetchBoughtTicketList = async (user_id) => {
+  const fetchBoughtTicketList = async () => {
 
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Profile::fetchBoughtTicketList()");
     
     setIsLoading(true);
 
-    const response = await getBoughtTicketList(1);
+    const response = await getBoughtTicketList(user.id);
     
     if (response != undefined && response.error == null) {
       setBoughtTicketList(response.datas.ticketsDatas);
@@ -58,7 +58,7 @@ const Profile = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <ProfileHeader navigation={navigation}/>
-        <Text style={{fontWeight:"bold",padding:10,fontSize:14}}>Mes Achats</Text>
+        <Text style={{fontWeight:"bold",padding:10,fontSize:16}}>Mes Achats</Text>
 
         { boughtTicketList.map((boughtTicket,index) => (
         <Pressable key={index} onPress={()=>boughtTicketPress(boughtTicket.id)} 

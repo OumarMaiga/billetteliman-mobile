@@ -9,6 +9,7 @@ import ErrorModal from '../../component/ErrorModal';
 import { updateUser } from '../../../service/user';
 import { Picker } from '@react-native-picker/picker';
 import { getIdentifiers } from '../../../service/identifier';
+import SuccessModal from '../../component/SuccessModal';
 
 const EditProfile = ({navigation}) => {
   
@@ -22,10 +23,16 @@ const EditProfile = ({navigation}) => {
   const [identifierSelected, setIdentifierSelected] = React.useState(identifiers.length > 0 ?? identifiers[0].value);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState("");
 
   const toggleErrorModal = () => {
     setIsErrorModalVisible(!isErrorModalVisible);
+  };
+  
+  const toggleSuccessModal = () => {
+    setIsSuccessModalVisible(!isSuccessModalVisible);
   };
 
   const fetchIdentifiers = async () => {
@@ -38,6 +45,9 @@ const EditProfile = ({navigation}) => {
     
     if (response != undefined && response.error == null) {
       setIdentifiers(response.datas.identifiers);
+    } else {
+      setErrorMessage(response.error);
+      setIsErrorModalVisible(!isErrorModalVisible);
     }
     setIsLoading(false);
 
@@ -60,6 +70,8 @@ const EditProfile = ({navigation}) => {
     
     if(response != undefined && response.error == null) {
       dispatch(update(response.datas.accountDatas));
+      setSuccessMessage("Mise à jour du profil effectué effectué !");
+      setIsSuccessModalVisible(!isSuccessModalVisible);
     } else {
       setErrorMessage(response.error);
       setIsErrorModalVisible(!isErrorModalVisible);
@@ -120,6 +132,7 @@ const EditProfile = ({navigation}) => {
           </Pressable>
         </View>
         <Loading isLoading={isLoading} />
+        <SuccessModal isVisible={isSuccessModalVisible} toggleModal={toggleSuccessModal} message={successMessage} />
         <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
       </ScrollView>
     </SafeAreaView>

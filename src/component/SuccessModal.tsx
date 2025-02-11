@@ -19,7 +19,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isVisible, toggleModal, mes
         </View>
         <Text style={styles.text}>{message != "" ? message : "Votre action a été réalisée avec succès."}</Text>
         <View style={styles.button_container}>
-          <Button title="OK" onPress={toggleModal} color="#8B0F04" />
+          <Button title="OK" onPress={toggleModal} color="#22812B" />
         </View>
       </View>
     </Modal>
@@ -28,7 +28,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isVisible, toggleModal, mes
 
 const styles = StyleSheet.create({
   modalContent: {
-    backgroundColor: '#D59E99',
+    backgroundColor: '#fff',
     paddingTop: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   icon_container: {
     width: 50,
     height: 50,
-    backgroundColor: "#8B0F04",
+    backgroundColor: "#22812B",
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",

@@ -2,7 +2,7 @@ import "../data/global.js";
 import * as GLOBAL from "../data/global.js";
 
 export const updateUser = async(user_id, payload) => {
-    console.log(payload);
+    
     if (global.debug >= GLOBAL.LOG.INFO) console.log("AuthService:updateUser()");
     
     try {
@@ -24,7 +24,7 @@ export const updateUser = async(user_id, payload) => {
 
 export const changePassword = async(user_id, payload) => {
     
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("AuthService:updateUser()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("AuthService:changePassword()");
     
     try {
         const response = await fetch(`${global.SERVER_ADDRESS}/user/password/update/${user_id}`, {
@@ -34,11 +34,11 @@ export const changePassword = async(user_id, payload) => {
 
         const body = await response.json();
 
-        if (global.debug >= GLOBAL.LOG.TRACE) console.log("AuthService:updateUser()::body", body);
+        if (global.debug >= GLOBAL.LOG.TRACE) console.log("AuthService:changePassword()::body", body);
 
         return body;
 
     } catch (error) {
-        if (global.debug >= GLOBAL.LOG.INFO) console.error("AuthService:updateUser()::catch", error);
+        if (global.debug >= GLOBAL.LOG.INFO) console.error("AuthService:changePassword()::catch", error);
     }
 }
