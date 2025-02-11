@@ -12,7 +12,9 @@ const prefix = createURL('/');
 
 const Navigation = () =>  {
     
-    const isAuthenticated = useSelector((state) => state.isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    // const sg = useSelector((state) => state);
+    // console.log('State global :', sg);
     
     const linking = {
         prefixes: [prefix],

@@ -66,6 +66,8 @@ const Login = ({navigation}) => {
   const submitButtonPress = async () => {
     
     if(global.debug >= GLOBAL.LOG.INFO) console.log("Login::submitButtonPress()")
+
+    setIsLoading(true);
       
     const formData = new FormData();
     formData.append("user-login", login);
@@ -80,6 +82,7 @@ const Login = ({navigation}) => {
       setErrorMessage(response.error);
       setIsErrorModalVisible(!isErrorModalVisible);
     }
+    setIsLoading(false);
   }
 
   const inscriptionLinkPress = () => {

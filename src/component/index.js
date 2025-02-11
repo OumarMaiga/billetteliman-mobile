@@ -27,7 +27,7 @@ export const ProfileHeader = ({navigation}) => {
 
         if(global.debug >= GLOBAL.LOG.DEBUG) console.log("ProfileHeader::onLogoutPress()");
 
-        dispatch(logout());
+        dispatch(logout()); 
     }
 
     return (
