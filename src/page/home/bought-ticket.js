@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, TextInput, 
-  Pressable, KeyboardAvoidingView, Platform, 
-  TouchableOpacity,
-  Image} from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, 
+  KeyboardAvoidingView, Platform, Image} from 'react-native';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
 import { convertToDateHour, dateTimeFormat, formatDateTime, priceFormat } from '../../helper';

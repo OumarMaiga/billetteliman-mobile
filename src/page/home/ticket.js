@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, TextInput, 
-  Pressable, KeyboardAvoidingView, Platform } from 'react-native';
+  TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { getTicket, boughtTicket } from '../../../service/ticket';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
@@ -187,10 +187,10 @@ const Ticket = ({route, navigation}) => {
                 onChangeText={(text)=>setPhonenumber(text)}
                 value={phonenumber} />
                 
-              <Pressable onPress={() => buyPress(ticket_id)} style={{display: 'flex', flexWrap: 'wrap', marginBottom: 20}}>
+              <TouchableOpacity onPress={() => buyPress(ticket_id)} style={{display: 'flex', flexWrap: 'wrap', marginBottom: 20}}>
                 <Text style={styles.custom_button}>Acheter</Text>
                 <Loading isLoading={isBoughtTicketLoading}/>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
             <SuccessModal isVisible={isSuccessModalVisible} toggleModal={toggleSuccessModal} message={successMessage} />

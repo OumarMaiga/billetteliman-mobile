@@ -7,8 +7,10 @@ const styles = StyleSheet.create({
     },
     start_container: {
         flex: 1,
-        backgroundColor: "#09CC1C",
         position: "relative"
+    },
+    start_image_container: {
+        backgroundColor: "#22812B",
     },
     start_image: {
         marginTop: 60,
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: "center",
         width: 300,
-        height: 300
+        height: 350,
     },
     start_item_container: {
         bottom: 40, 
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 40,
         marginHorizontal: 20,
-        color: "#fff"
+        color: "#22812B"
     },
     button_container: {
         flexDirection: "row",
@@ -43,10 +45,14 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 5
     },
-    button_start_text: {
-        color: "#09CC1C", 
-        fontSize: 22
-    },
+	button_text: {
+		backgroundColor: "#22812B",
+		color: "#fff",
+		textAlign: 'center',
+		paddingHorizontal: 10,
+		paddingVertical: 4,
+		fontSize: 18,
+	},
     title: {
         fontSize: 28,
         fontWeight: 'bold'
@@ -69,7 +75,7 @@ const styles = StyleSheet.create({
     },
     link: {
         color: '#0000EE'
-    }
+    },
 
 });
 

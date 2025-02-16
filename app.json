@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "billetteliman-mobile",
-    "slug": "billetteliman-mobile",
+    "name": "billetteliman",
+    "slug": "billetteliman",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,17 +16,27 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hasseye.billetteliman",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.hasseye.billetteliman"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "billetteliman-mobile"
+    "extra": {
+      "eas": {
+        "projectId": "77728f8a-d855-480b-9a82-2f41a74b88d2"
+      }
+    },
+    "owner": "hasseye"
   }
 }

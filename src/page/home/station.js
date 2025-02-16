@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, SafeAreaView, TouchableOpacity, View, FlatList } from 'react-native';
+import { Text, SafeAreaView, View, FlatList } from 'react-native';
 import { getStationTickets } from '../../../service/ticket';
 import { getStation } from '../../../service/partner';
 import styles from './assets/style/index';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, Pressable, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { useSelector } from 'react-redux';
 import { update } from "../../features/userSlice";
 import styles from './assets/style/index';
@@ -15,12 +15,12 @@ const EditProfile = ({navigation}) => {
   
   const user = useSelector((state) => state.user.user);
   
-  const [firstname, setFirstname] = React.useState(user != undefined ? user.firstname : "");
-  const [lastname, setLastname] = React.useState(user != undefined ? user.lastname : "");
-  const [phone, setPhone] = React.useState(user != undefined ? user.phonenumber : "");
-  const [email, setEmail] = React.useState(user != undefined ? user.email : "");
+  const [firstname, setFirstname] = React.useState(user != undefined && user.firstname != null ? user.firstname : "");
+  const [lastname, setLastname] = React.useState(user != undefined && user.lastname != null ? user.lastname : "");
+  const [phone, setPhone] = React.useState(user != undefined && user.phonenumber != null ? user.phonenumber : "");
+  const [email, setEmail] = React.useState(user != undefined && user.email != null ? user.email : "");
   const [identifiers, setIdentifiers] = React.useState([]);
-  const [identifierSelected, setIdentifierSelected] = React.useState(identifiers.length > 0 ?? identifiers[0].value);
+  const [identifierSelected, setIdentifierSelected] = React.useState(user != undefined ? user.phonenumberIdentifier.id : 0);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = React.useState(false);
@@ -65,7 +65,8 @@ const EditProfile = ({navigation}) => {
     formData.append("user-phonenumber", phone);
     formData.append("user-email", email);
     formData.append("country-identifier", identifierSelected);
-
+    
+    console.log(formData);
     const response = await updateUser(user.id, formData);
     
     if(response != undefined && response.error == null) {
@@ -105,13 +106,14 @@ const EditProfile = ({navigation}) => {
             value={lastname} />
 
           <Text style={styles.label}>Indicatif</Text>
-          <View style={styles.input}>
+          <View style={[styles.input,{paddingLeft:0}]}>
             <Picker
               selectedValue={identifierSelected}
               onValueChange={(itemValue, itemIndex) =>
                 setIdentifierSelected(itemValue)
               }>
-                {identifiers.map((identifier, index) => <Picker.Item key={index} label={identifier.identifier} value={identifier.identifier} /> )}
+                <Picker.Item label="Selectionnez" value="0" />
+                {identifiers.map((identifier, index) => <Picker.Item key={index} label={identifier.identifier} value={identifier.id} /> )}
             </Picker>
           </View>
           
@@ -127,9 +129,9 @@ const EditProfile = ({navigation}) => {
             onChangeText={(text)=>setEmail(text)}
             value={email} />
             
-          <Pressable onPress={onSubmit} style={{display: 'flex', flexWrap: 'wrap'}}>
+          <TouchableOpacity onPress={onSubmit} style={{display: 'flex', flexWrap: 'wrap'}}>
             <Text style={styles.custom_button}>Modifier</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <Loading isLoading={isLoading} />
         <SuccessModal isVisible={isSuccessModalVisible} toggleModal={toggleSuccessModal} message={successMessage} />

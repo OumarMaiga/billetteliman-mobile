@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Image, View, Pressable, Text } from 'react-native';
+import { Image, View, TouchableOpacity, Text } from 'react-native';
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { Ionicons } from 'react-native-vector-icons';
 import styles from './assets/style';
 import * as GLOBAL from '../../data/global';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/userSlice';
 
 export const Logo = () => {
@@ -16,6 +16,8 @@ export const Logo = () => {
 }
 
 export const ProfileHeader = ({navigation}) => {
+    
+    const user = useSelector((state) => state.user.user);
 	
     dispatch = useDispatch();
 	
@@ -34,9 +36,9 @@ export const ProfileHeader = ({navigation}) => {
         <MenuProvider>
             <View style={styles.profile_header}>        
                 <View style={styles.profile_header_icon_container}>
-                    <Pressable onPress={returnPress}>
+                    <TouchableOpacity onPress={returnPress}>
                         <Ionicons name="arrow-back" size={32} color="#fff" />
-                    </Pressable>
+                    </TouchableOpacity>
                     <Menu onSelect={value => navigation.navigate(value)}>
                         <MenuTrigger>
                             <Ionicons name="ellipsis-vertical" size={32} color="#fff" />
@@ -64,7 +66,7 @@ export const ProfileHeader = ({navigation}) => {
                 <View style={styles.profile_header_info}>
                     <Image style={styles.profile_image} 
                             source={require('../../assets/profile.png')} />
-                    <Text style={styles.profile_title}>Oumar Maiga</Text>
+                    <Text style={styles.profile_title}>{`${user.firstname} ${user.lastname}`}</Text>
                 </View>
             </View>
         </MenuProvider>

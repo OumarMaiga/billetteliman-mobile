@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, Pressable } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { ProfileHeader } from '../../component';
 import { useSelector } from 'react-redux';
 import { getBoughtTicketList } from '../../../service/ticket';
@@ -61,7 +61,7 @@ const Profile = ({navigation}) => {
         <Text style={{fontWeight:"bold",padding:10,fontSize:16}}>Mes Achats</Text>
 
         { boughtTicketList.map((boughtTicket,index) => (
-        <Pressable key={index} onPress={()=>boughtTicketPress(boughtTicket.id)} 
+        <TouchableOpacity key={index} onPress={()=>boughtTicketPress(boughtTicket.id)} 
           style={styles.profile_ticket_bought_container}>
           <View style={styles.profile_ticket_bought}>
             <View style={styles.ticket_detail_item_row}>
@@ -81,7 +81,7 @@ const Profile = ({navigation}) => {
               <Text style={{fontWeight:"bold"}}>{priceFormat(boughtTicket.paymentConfigurationDatas.price)}</Text>
             </View>
           </View>         
-        </Pressable>
+        </TouchableOpacity>
         ))}
       </ScrollView>
       <Loading isLoading={isLoading} />

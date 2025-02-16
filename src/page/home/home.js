@@ -128,7 +128,7 @@ const Home = ({navigation}) => {
             </TouchableOpacity>
           </View>
         
-          <TouchableOpacity onPress={profilePress}><Text style={{textAlign:'center'}}>Profile</Text></TouchableOpacity>
+          <TouchableOpacity onPress={profilePress}><Text style={{textAlign:'center',color:"#0000EE"}}>Profil</Text></TouchableOpacity>
         
           <StationList stations={stations} stationPress={stationPress} />
         </>

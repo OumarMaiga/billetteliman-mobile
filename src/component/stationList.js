@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import '../../data/global';
 import StationItem from './stationItem';
 

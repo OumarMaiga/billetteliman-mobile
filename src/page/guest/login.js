@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, TextInput, SafeAreaView, Button, ScrollView, Pressable, KeyboardAvoidingView, 
+import { Text, TextInput, SafeAreaView, Button, ScrollView, TouchableOpacity, KeyboardAvoidingView, 
   TouchableWithoutFeedback, Keyboard, Platform, 
   View} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -20,7 +20,7 @@ const Login = ({navigation}) => {
   const [login, setLogin] = React.useState();
   const [password, setPassword] = React.useState();
   const [identifiers, setIdentifiers] = React.useState([]);
-  const [identifierSelected, setIdentifierSelected] = React.useState(identifiers.length > 0 ?? identifiers[0].value);
+  const [identifierSelected, setIdentifierSelected] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
@@ -104,6 +104,7 @@ const Login = ({navigation}) => {
                   onValueChange={(itemValue, itemIndex) =>
                     setIdentifierSelected(itemValue)
                   }>
+                    <Picker.Item label="Selectionnez" value="0" />
                     {identifiers.map((identifier, index) => <Picker.Item key={index} label={identifier.identifier} value={identifier.id} /> )}
                 </Picker>
               </View>
@@ -121,13 +122,14 @@ const Login = ({navigation}) => {
                 onChangeText={(text)=>setPassword(text)}
                 value={password} />
                 
-              <Button onPress={submitButtonPress}
-                title='Connexion' />
+              <TouchableOpacity style={styles.button_container} onPress={submitButtonPress}>
+                <Text style={styles.button_text}>Connexion</Text>
+              </TouchableOpacity>
               <Text style={{textAlign: 'center', marginTop: 20, fontSize: 16}}>Vous n'avez pas de compte?</Text>
-              <Pressable onPress={inscriptionLinkPress}
+              <TouchableOpacity onPress={inscriptionLinkPress}
                 style={styles.link}>
                 <Text style={[styles.link,{textAlign: 'center', marginTop: 10, fontSize: 16}]}>Inscrivez-vous</Text>
-              </Pressable>
+              </TouchableOpacity>
             </ScrollView>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

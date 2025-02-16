@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../data/global';
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { dateTimeFormat, priceFormat } from '../helper';
 
 export default function({ticket, handelItemPress, isTicketsLoading}) {

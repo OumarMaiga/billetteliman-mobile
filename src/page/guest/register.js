@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, TextInput, Button, ScrollView, Pressable, KeyboardAvoidingView, 
+import { View, Text, SafeAreaView, TextInput, Button, ScrollView, TouchableOpacity, KeyboardAvoidingView, 
   TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { register } from '../../../service/auth';
@@ -19,7 +19,7 @@ const Register = ({navigation}) => {
   const [password, setPassword] = React.useState();
   const [passwordConfirm, setPasswordConfirm] = React.useState();
   const [identifiers, setIdentifiers] = React.useState([]);
-  const [identifierSelected, setIdentifierSelected] = React.useState( identifiers.length > 0 ?? identifiers[0].value);
+  const [identifierSelected, setIdentifierSelected] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
@@ -70,6 +70,7 @@ const Register = ({navigation}) => {
     if(password == "" || password != passwordConfirm) {
       setErrorMessage("Mot de passe non conforme !");
       setIsErrorModalVisible(!isErrorModalVisible);
+      setIsLoading(false);
       return false;
     }
 
@@ -108,7 +109,8 @@ const Register = ({navigation}) => {
                     setIdentifierSelected(itemValue)
                   }
                   style={styles.picker}>
-                    {identifiers.map((identifier, index) => <Picker.Item key={index} label={identifier.identifier} value={identifier.identifier} /> )}
+                    <Picker.Item label="Selectionnez" value="0" />
+                    {identifiers.map((identifier, index) => <Picker.Item key={index} label={identifier.identifier} value={identifier.id} /> )}
                 </Picker>
               </View>
               <Text style={styles.label}>Téléphone</Text>
@@ -127,13 +129,15 @@ const Register = ({navigation}) => {
                 style={styles.input}
                 onChangeText={(text)=>setPasswordConfirm(text)}
                 value={passwordConfirm} />
-              <Button onPress={submitButtonPress}
-                title='Inscription' />
+                
+              <TouchableOpacity style={styles.button_container} onPress={submitButtonPress}>
+                <Text style={styles.button_text}>Inscription</Text>
+              </TouchableOpacity>
               <Text style={{textAlign: 'center', marginTop: 20, fontSize: 16}}>Vous avez déjà un compte?</Text>
-              <Pressable onPress={connexionLinkPress} 
+              <TouchableOpacity onPress={connexionLinkPress} 
                 style={styles.link}>
                 <Text style={[styles.link,{textAlign: 'center', marginTop: 10, fontSize: 16}]}>Connectez-vous</Text>
-              </Pressable>
+              </TouchableOpacity>
             </ScrollView>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

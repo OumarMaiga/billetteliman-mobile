@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, Pressable, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { useSelector } from 'react-redux';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
@@ -68,9 +68,9 @@ const EditPassword = ({navigation}) => {
             onChangeText={(text)=>setPasswordConfirm(text)}
             value={passwordConfirm} />
                         
-          <Pressable onPress={onSubmit} style={{display: 'flex', flexWrap: 'wrap'}}>
+          <TouchableOpacity onPress={onSubmit} style={{display: 'flex', flexWrap: 'wrap'}}>
             <Text style={styles.custom_button}>Modifier</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
         <Loading isLoading={isLoading} />
