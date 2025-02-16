@@ -66,7 +66,6 @@ const EditProfile = ({navigation}) => {
     formData.append("user-email", email);
     formData.append("country-identifier", identifierSelected);
     
-    console.log(formData);
     const response = await updateUser(user.id, formData);
     
     if(response != undefined && response.error == null) {
