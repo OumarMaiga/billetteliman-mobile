@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, TextInput, 
-  TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+  TouchableOpacity, KeyboardAvoidingView, Platform, 
+  Button} from 'react-native';
 import { getTicket, boughtTicket } from '../../../service/ticket';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
@@ -12,7 +13,7 @@ import { Picker } from '@react-native-picker/picker';
 import SuccessModal from '../../component/SuccessModal';
 
 const Ticket = ({route, navigation}) => {
-  const { ticket_id, day, payment_url, boughtTicketId } = route.params;
+  const { ticket_id, day, status, boughtTicketId } = route.params;
   
   const [firstname, setFirstname] = React.useState();
   const [lastname, setLastname] = React.useState();
@@ -33,26 +34,33 @@ const Ticket = ({route, navigation}) => {
   };
   const toggleSuccessModal = () => {
     setIsSuccessModalVisible(!isSuccessModalVisible);
+    navigation.navigate('BoughtTicket',{
+      "boughtTicketId": boughtTicketId,
+    });
   };
 
   React.useEffect(()=> {
-    if(payment_url !== undefined) {
-      const urlParams = new URLSearchParams(payment_url);
-      const status = urlParams.get('status');
-      console.log('status => ' + status);
-      console.log('payment_url => ' + payment_url);
-      if (status == 'echec') {
-				setErrorMessage("Erreur de lors du paiement. Veuillez-nous contactez au 71316544");
-      } else if(status == 'pending') {
-        setErrorMessage("Paiement en cours de validation");
-      } else if(status == 'cancel') {
-				setErrorMessage("Vous avez annulé le paiement");
+    if(status !== undefined) {
+      emptyInfoClient();
+      if (status == 'success') {
+				setSuccessMessage("Achat effectuer avec succès");
+        setIsSuccessModalVisible(!isSuccessModalVisible);
       } else {
-				setErrorMessage("Status de paiement inconnue...");
+        if (status == 'echec') {
+          setErrorMessage("Erreur de lors du paiement. Veuillez-nous contactez au 71316544");
+        } else if(status == 'pending') {
+          setErrorMessage("Paiement en cours de validation");
+        } else if(status == 'cancel') {
+          setErrorMessage("Vous avez annulé le paiement");
+        } else if(status == 'initiated') {
+          setErrorMessage("Vous n'avez pas terminer le paiement");
+        } else {
+          setErrorMessage("Status de paiement inconnue...");
+        }
+        setIsErrorModalVisible(!isErrorModalVisible);
       }
-      setIsErrorModalVisible(!isErrorModalVisible);
     }
-  },[payment_url])
+  },[status])
 
   const buyPress = async (ticket_id) => {
     
@@ -67,7 +75,7 @@ const Ticket = ({route, navigation}) => {
     formData.append("count", 1);
     formData.append("day", day);
     formData.append("potential-payer", user.id);
-    formData.append("deeplink", "exp://192.168.1.27:8081");
+    formData.append("deeplink", "billetteliman://home");
   
     const response = await boughtTicket(ticket_id, formData);
     
@@ -80,6 +88,11 @@ const Ticket = ({route, navigation}) => {
     setIsBoughtTicketLoading(false);
   }
 
+  const emptyInfoClient = () => {
+    setFirstname("");
+    setLastname("");
+    setPhonenumber("");
+  }
   const fetchTicket = async (ticket_id) => {
 
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Ticket::buyPress()");
@@ -101,7 +114,7 @@ const Ticket = ({route, navigation}) => {
     }
     setIsLoading(false);
 
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Ticket::buyPress()::response "+JSON.stringify(response));
+    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Ticket::buyPress()::response ",JSON.stringify(response));
   }
 
   React.useEffect(() => {
@@ -111,7 +124,7 @@ const Ticket = ({route, navigation}) => {
     fetchTicket(ticket_id);
 
   }, []);
-
+  
   return (
     <SafeAreaView style={styles.container}>
       { ticket && (

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, 
-  KeyboardAvoidingView, Platform, Image} from 'react-native';
+  KeyboardAvoidingView, Platform, Image,
+  Button} from 'react-native';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
 import { convertToDateHour, dateTimeFormat, formatDateTime, priceFormat } from '../../helper';
@@ -9,7 +10,7 @@ import ErrorModal from '../../component/ErrorModal';
 import { Loading } from '../../component/Loading';
 import { Picker } from '@react-native-picker/picker';
 import SuccessModal from '../../component/SuccessModal';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getBoughtTicket } from '../../../service/ticket';
 
 const BoughtTicket = ({route, navigation}) => {
@@ -94,7 +95,7 @@ const BoughtTicket = ({route, navigation}) => {
                   <Text style={styles.ticket_detail_item_text}>{boughtTicket && 'Montant payé'}</Text>
                 </View>
                 <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
-                  <Text style={[styles.ticket_detail_item_text,{color:"red"}]}>{boughtTicket && boughtTicket.paymentConfigurationDatas.price+'F'}</Text>
+                  <Text style={[styles.ticket_detail_item_text,{color:"red"}]}>{boughtTicket && boughtTicket.paymentConfigurationDatas.amount+'F'}</Text>
                 </View>
               </View>
             </View>

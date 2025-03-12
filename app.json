@@ -32,6 +32,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "scheme": "billetteliman",
     "extra": {
       "eas": {
         "projectId": "77728f8a-d855-480b-9a82-2f41a74b88d2"

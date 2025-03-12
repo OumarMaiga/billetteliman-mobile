@@ -20,9 +20,9 @@ const Payment = ({ route, navigation }) => {
 			if (response && !response.error) {
 				switch (response.datas.status) {
 					case 'SUCCESS':
-						navigation.navigate('BoughtTicket', {
+						navigation.navigate('Ticket', {
 							"day": day,
-							"payment_url": 'status=success',
+							"status": 'success',
 							"boughtTicketId": boughtTicketId,
 						});            
 						break;
@@ -30,72 +30,63 @@ const Payment = ({ route, navigation }) => {
 						navigation.navigate('Ticket', {
 							"ticket_id": ticket_id,
 							"day": day,
-							"payment_url": 'pending',
+							"status": 'pending',
 						});
 						break;
-					default:
-						if (global.debug >= GLOBAL.LOG.ROOT) console.log("Payment::fetchPaymentReturn()::default ");
+					case 'INITIATED':
 						navigation.navigate('Ticket', {
 							"ticket_id": ticket_id,
 							"day": day,
-							"payment_url": 'status=echec',
+							"status": 'initiated',
+						});
+						break;
+					default:
+						navigation.navigate('Ticket', {
+							"ticket_id": ticket_id,
+							"day": day,
+							"status": 'echec',
 						});
 						break;
 				}
 			} else {
-				if (global.debug >= GLOBAL.LOG.ROOT) console.log("Payment::fetchPaymentReturn()::else ");
 				navigation.navigate('Ticket', {
 					"ticket_id": ticket_id,
 					"day": day,
-					"payment_url": 'status=echec',
+					"status": 'echec',
 				});
 			}
 		} catch (error) {
-			if (global.debug >= GLOBAL.LOG.ROOT) console.log("Payment::fetchPaymentReturn()::catch "+error.message);
+			if (global.debug >= GLOBAL.LOG.ROOT) console.log("Payment::fetchPaymentReturn()::catch ",error.message);
 			navigation.navigate('Ticket', {
 				"ticket_id": ticket_id,
 				"day": day,
-				"payment_url": 'status=echec',
+				"status": 'echec',
 			});
 		} finally {
-			if (global.debug >= GLOBAL.LOG.ROOT) console.log("Payment::fetchPaymentReturn()::response "+JSON.stringify(response));
+			if (global.debug >= GLOBAL.LOG.ROOT) console.log("Payment::fetchPaymentReturn()::response ",JSON.stringify(response));
 			setIsLoading(false);
 		}
 	}
 
   const handleNavigationChange = async (navigationState) => {
     const { url } = navigationState;
-    console.log('url => '+url);
-	console.log(url.includes('return'));
-	console.log(url.includes('cancel'));
-    if(url.includes("api/payment")) {
-    	console.log('includes = api/payment');
-		switch (url) {
-			case url.includes('return'):
-    			console.log('includes = return');
-                fetchPaymentReturn();
-				break;
-
-			case url.includes('cancel'):
-				console.log('includes = cancel');
-				navigation.navigate('Ticket', {
-					"ticket_id": ticket_id,
-					"day": day,
-					"payment_url": 'status=cancel',
-				});
-				break;
-
-			default:
-				console.log('includes = default');
-				navigation.navigate('Ticket', {
-					"ticket_id": ticket_id,
-					"day": day,
-					"payment_url": 'status=echec',
-				});     
-				break;
+    if(url.includes("api/payment/")) {
+		if(url.includes("api/payment/return")) {
+			fetchPaymentReturn();
+		} else if(url.includes("api/payment/cancel")) {
+			navigation.navigate('Ticket', {
+				"ticket_id": ticket_id,
+				"day": day,
+				"status": 'cancel',
+			});
+		} else {
+			navigation.navigate('Ticket', {
+				"ticket_id": ticket_id,
+				"day": day,
+				"status": 'echec',
+			});
 		}
-
-    }
+	}
   };
 
   return (

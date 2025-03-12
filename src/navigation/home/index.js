@@ -29,7 +29,7 @@ export const HomeStackScreen = () => {
     }
 
     return (
-      <TouchableOpacity onPress={profilePress}
+      <TouchableOpacity onPressIn={profilePress}
         style={{
           borderWidth: 1,
           borderColor: '#fff',

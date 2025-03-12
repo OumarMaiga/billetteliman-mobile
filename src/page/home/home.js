@@ -37,11 +37,6 @@ const Home = ({navigation}) => {
       "station_id": station_id
     });
   }
-  
-  const profilePress = () => {
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::profilePress()");
-    navigation.navigate('Profile');
-  }
 
   const searchInputPress = () => {
     if (global.debug >= GLOBAL.LOG.INFO) console.log("Home::searchInputPress()");
@@ -127,8 +122,6 @@ const Home = ({navigation}) => {
                 <Text style={{ color: "#D9D9D9", fontSize: 18 }}>Recherche</Text>
             </TouchableOpacity>
           </View>
-        
-          <TouchableOpacity onPress={profilePress}><Text style={{textAlign:'center',color:"#0000EE"}}>Profil</Text></TouchableOpacity>
         
           <StationList stations={stations} stationPress={stationPress} />
         </>
