@@ -134,8 +134,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "flex-end",
-		marginLeft: 10,
-		marginRight: 10,
 	},
 	icon_close: {
 		width: 50,

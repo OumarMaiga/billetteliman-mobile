@@ -156,6 +156,41 @@ const styles = StyleSheet.create({
         width: 40, 
         height: 40,
     },
+    profile_header_container: {
+        backgroundColor: "#09CC1C",
+        padding: 40,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    profile_header_title: {
+        fontSize: 28,
+        color: "#fff",
+        fontWeight: "bold"
+    },
+    profile_info_perso_container: {
+        padding: 20,
+        marginBottom: 20
+    },
+    profile_info_perso_item_container: {
+        flexDirection: "row",
+        marginBottom: 10
+    },
+    profile_info_perso_item_icon: {
+        padding: 10,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    profile_info_perso_item: {
+        padding: 10
+    },
+    profile_info_perso_item_label: {
+        fontSize: 12,
+        color: "#979797"
+    },
+    profile_info_perso_item_text: {
+        fontSize: 18,
+        fontWeight: "bold"
+    },
 
 
     //Setting
@@ -190,7 +225,29 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '300',
         marginTop: 10
-    }
+    },
+
+
+    // Drawer Navigation
+  head_info: {
+    padding: 20,
+    flexDirection: "row",
+    alignItems: 'center',
+    borderBottomWidth: 4,
+    borderBottomColor: '#09CC1C',
+    marginBottom: 20,
+  },
+  head_icon: {
+    padding: 10,
+  },
+  user_name: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  user_email: {
+    fontSize: 14,
+    color: '#666',
+  },
 });
 
 export default styles;

@@ -85,7 +85,6 @@ const Home = ({navigation}) => {
         throw new Error((response != undefined && response.error) || "Erreur de récupération des stations");
       }
     } catch (error) {
-      console.error(error.message);
       setErrorMessage(error.message);
       setIsErrorModalVisible(true);
     } finally {

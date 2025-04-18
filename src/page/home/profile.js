@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { ProfileHeader } from '../../component';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
-import { getBoughtTicketList } from '../../../service/ticket';
+import { Ionicons } from 'react-native-vector-icons';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
 import ErrorModal from '../../component/ErrorModal';
@@ -13,7 +12,6 @@ const Profile = ({navigation}) => {
     
   const user = useSelector((state) => state.user.user);
 
-  const [boughtTicketList, setBoughtTicketList] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
@@ -22,67 +20,49 @@ const Profile = ({navigation}) => {
     setIsErrorModalVisible(!isErrorModalVisible);
   };
 
-  const fetchBoughtTicketList = async () => {
-
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Profile::fetchBoughtTicketList()");
-    
-    setIsLoading(true);
-
-    const response = await getBoughtTicketList(user.id);
-    
-    if (response != undefined && response.error == null) {
-      setBoughtTicketList(response.datas.ticketsDatas);
-    } else {
-      setErrorMessage(response.error);
-      setIsErrorModalVisible(!isErrorModalVisible);
-    }
-    setIsLoading(false);
-
-    if (global.debug >= GLOBAL.LOG.ROOT)  console.log("Profile::fetchBoughtTicketList()::response "+JSON.stringify(response));
-  }
-
   const boughtTicketPress = (boughtTicketId) => {
     navigation.navigate('BoughtTicket', {
       "boughtTicketId": boughtTicketId
     });
   }
-  React.useEffect(() => {
-
-    if (global.debug >= GLOBAL.LOG.INFO) console.log("Profile::useEffect()");
-
-    fetchBoughtTicketList(user.id);
-
-  },[]);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <ProfileHeader navigation={navigation}/>
-        <Text style={{fontWeight:"bold",padding:10,fontSize:16}}>Mes Achats</Text>
+        
+        <Text style={{fontWeight:"bold",padding:20,fontSize:16}}>Information personnelle</Text>
 
-        { boughtTicketList.map((boughtTicket,index) => (
-        <TouchableOpacity key={index} onPress={()=>boughtTicketPress(boughtTicket.id)} 
-          style={styles.profile_ticket_bought_container}>
-          <View style={styles.profile_ticket_bought}>
-            <View style={styles.ticket_detail_item_row}>
-              <Text>Compagnie</Text>
-              <Text style={{fontWeight:"bold"}}>{boughtTicket.ticket.partner.companyName}</Text>
+        <View style={styles.profile_info_perso_container}>
+          <View style={styles.profile_info_perso_item_container}>
+            <View style={styles.profile_info_perso_item_icon}>
+              <Ionicons name="person-circle-sharp" size={22} color="#000" />
             </View>
-            <View style={styles.ticket_detail_item_row}>
-              <Text>Trajet</Text>
-              <Text style={{fontWeight:"bold"}}>{`${boughtTicket.ticket.travelDatas.from} - ${boughtTicket.ticket.travelDatas.to}`}</Text>
+            <View style={styles.profile_info_perso_item}>
+              <Text style={styles.profile_info_perso_item_label}>Prenom & Nom</Text>
+              <Text style={styles.profile_info_perso_item_text}>{`${user.firstname} ${user.lastname}`}</Text>
             </View>
-            <View style={styles.ticket_detail_item_row}>
-              <Text>Depart</Text>
-              <Text style={{fontWeight:"bold"}}>{dateTimeFormat(boughtTicket.travelDate, boughtTicket.ticket.travelDatas.departureAt)}</Text>
+          </View>
+          
+          <View style={styles.profile_info_perso_item_container}>
+            <View style={styles.profile_info_perso_item_icon}>
+              <Ionicons name="mail" size={22} color="#000" />
             </View>
-            <View style={styles.ticket_detail_item_row}>
-              <Text>Montant payé</Text>
-              <Text style={{fontWeight:"bold"}}>{priceFormat(boughtTicket.paymentConfigurationDatas.price)}</Text>
+            <View style={styles.profile_info_perso_item}>
+              <Text style={styles.profile_info_perso_item_label}>Email</Text>
+              <Text style={styles.profile_info_perso_item_text}>{`${user.email}`}</Text>
             </View>
-          </View>         
-        </TouchableOpacity>
-        ))}
+          </View>
+          
+          <View style={styles.profile_info_perso_item_container}>
+            <View style={styles.profile_info_perso_item_icon}>
+              <Ionicons name="call-sharp" size={22} color="#000" />
+            </View>
+            <View style={styles.profile_info_perso_item}>
+              <Text style={styles.profile_info_perso_item_label}>Téléphone</Text>
+              <Text style={styles.profile_info_perso_item_text}>{`${user.phonenumber}`}</Text>
+            </View>
+          </View>
+        </View>
       </ScrollView>
       <Loading isLoading={isLoading} />
       <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
