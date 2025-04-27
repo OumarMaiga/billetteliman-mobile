@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { update } from "../../features/userSlice";
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
@@ -14,6 +14,7 @@ import SuccessModal from '../../component/SuccessModal';
 const EditProfile = ({navigation}) => {
   
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
   
   const [firstname, setFirstname] = React.useState(user != undefined && user.firstname != null ? user.firstname : "");
   const [lastname, setLastname] = React.useState(user != undefined && user.lastname != null ? user.lastname : "");

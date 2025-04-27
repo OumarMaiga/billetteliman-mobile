@@ -150,7 +150,7 @@ const CustomDrawerContent = (props) => {
           <Ionicons name="person" size={30} />
         </View>
         <View style={styles.head_text}>
-          <Text style={styles.user_name}>{`${user.firstname} ${user.lastname}`}</Text>
+          <Text style={styles.user_name}>{`${user?.firstname} ${user?.lastname}`}</Text>
           <Text style={styles.user_email}>Utilisateur</Text>
         </View>
       </View>
@@ -170,13 +170,13 @@ const CustomDrawerContent = (props) => {
 
 export const HomeStackScreen = () => {
     return (
-      <Drawer.Navigator initialRouteName="Home" screenOptions={{ 
+      <Drawer.Navigator initialRouteName="HomeStack" screenOptions={{ 
         headerShown: false,
         drawerActiveTintColor: '#000',
        }}
         drawerContent={(props)=> <CustomDrawerContent {...props} />}
         >
-        <Drawer.Screen name="Home" component={HomeStack} options={{ 
+        <Drawer.Screen name="HomeStack" component={HomeStack} options={{ 
           drawerLabel: 'Accueil',
           drawerIcon: () => <Ionicons name="home" size={22} />,
         }} />

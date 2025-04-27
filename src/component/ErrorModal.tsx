@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
+import { Portal, Provider } from 'react-native-paper';
 
 interface ErrorModalProps {
   isVisible: boolean;
@@ -11,17 +12,21 @@ interface ErrorModalProps {
 
 const ErrorModal: React.FC<ErrorModalProps> = ({isVisible, toggleModal, message=""}) => {
   return (
-    <Modal isVisible={isVisible}>
-      <View style={styles.modalContent}>
-        <View style={styles.icon_container}>
-          <Ionicons name='close' size={32} color="#FFF" />
-        </View>
-        <Text style={styles.text}>{message != "" ? message : "Une erreur s'est produite."}</Text>
-        <View style={styles.button_container}>
-          <Button title="OK" onPress={toggleModal} color="#8B0F04" />
-        </View>
-      </View>
-    </Modal>
+    <Provider>
+      <Portal>
+        <Modal isVisible={isVisible}>
+          <View style={styles.modalContent}>
+            <View style={styles.icon_container}>
+              <Ionicons name='close' size={32} color="#FFF" />
+            </View>
+            <Text style={styles.text}>{message != "" ? message : "Une erreur s'est produite."}</Text>
+            <View style={styles.button_container}>
+              <Button title="OK" onPress={toggleModal} color="#8B0F04" />
+            </View>
+          </View>
+        </Modal>
+      </Portal>
+    </Provider>
   );
 };
 

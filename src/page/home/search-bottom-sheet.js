@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from 'react-native-vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import * as GLOBAL from "../../../data/global.js";
@@ -15,7 +14,6 @@ const SearchBottomSheet = ({navigation}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [cities, setCities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-    
 
   // Ouvrir le DatePicker
   const showDatePicker = () => {
@@ -44,15 +42,11 @@ const SearchBottomSheet = ({navigation}) => {
 
   useEffect(() => {
 
-	if (global.debug >= GLOBAL.LOG.INFO) console.log("SearchBttomSheet::useEffect()");
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("SearchBttomSheet::useEffect()");
 
-	fetchCities();
+    fetchCities();
 
   }, [navigation]);
-
-  const closePress = () => {
-    navigation.goBack();
-  }
   
   const fetchCities = async () => {
     try {
@@ -75,78 +69,61 @@ const SearchBottomSheet = ({navigation}) => {
   }
   
   return (
-    <SafeAreaView style={styles.container}>
-        <View style={styles.book_container}>
-          <Text style={styles.book_title}>Reservez votre billet</Text>
-          <TouchableOpacity onPress={closePress} style={styles.icon_close}>
-            <Ionicons name='close' size={32} color="#000" />
-          </TouchableOpacity>
-          <Text style={styles.label}>Départ</Text>
-            <View style={styles.input}>
-              <Picker
-                selectedValue={start_point}
-                onValueChange={(itemValue) => setStart_point(itemValue)}
-              >
-                <Picker.Item label="Bamako" value="Bamako" />
-                {cities.map((city,index) => (
-                  <Picker.Item key={index} label={city.name} value={city.name} />
-                ))}
-              </Picker>
-            </View>
-          <Text style={styles.label}>Destination</Text>
-          <View style={styles.input}>
-            <Picker
-              selectedValue={end_point}
-              onValueChange={(itemValue) => setEnd_point(itemValue)}
-              style={styles.picker}
-            >
-              <Picker.Item label="" value="" />
-              {cities.map((city,index) => (
-                <Picker.Item key={index} label={city.name} value={city.name} />
-              ))}
-            </Picker>
-          </View>
-            
-          <Text style={styles.label}>Date</Text>
-          <TouchableOpacity style={[styles.input,{justifyContent: 'center'}]}
-            onPress={showDatePicker}>
-              {isDatePickerVisible && (
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={dateSelected}
-                onCancel={hideDatePicker}
-              />
-              )}
-            <Text style={{fontSize: 18}}>{departure_date}</Text>
-          </TouchableOpacity>
-            
-          <TouchableOpacity onPress={searchPress} style={styles.button_search_container}>
-            <Text style={styles.custom_button}>Recherche</Text>
-          </TouchableOpacity>          
+    <View style={styles.book_container}>
+      <Text style={styles.book_title}>Reservez votre billet</Text>
+      <Text style={styles.label}>Départ</Text>
+        <View style={styles.input}>
+          <Picker
+            selectedValue={start_point}
+            onValueChange={(itemValue) => setStart_point(itemValue)}
+          >
+            <Picker.Item label="Bamako" value="Bamako" />
+            {cities.map((city,index) => (
+              <Picker.Item key={index} label={city.name} value={city.name} />
+            ))}
+          </Picker>
         </View>
-    </SafeAreaView>
+      <Text style={styles.label}>Destination</Text>
+      <View style={styles.input}>
+        <Picker
+          selectedValue={end_point}
+          onValueChange={(itemValue) => setEnd_point(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="" value="" />
+          {cities.map((city,index) => (
+            <Picker.Item key={index} label={city.name} value={city.name} />
+          ))}
+        </Picker>
+      </View>
+        
+      <Text style={styles.label}>Date</Text>
+      <TouchableOpacity style={[styles.input,{justifyContent: 'center'}]}
+        onPress={showDatePicker}>
+          {isDatePickerVisible && (
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={dateSelected}
+            onCancel={hideDatePicker}
+          />
+          )}
+        <Text style={{fontSize: 18}}>{departure_date}</Text>
+      </TouchableOpacity>
+        
+      <TouchableOpacity onPress={searchPress} style={styles.button_search_container}>
+        <Text style={styles.custom_button}>Recherche</Text>
+      </TouchableOpacity>          
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   
-	container: {
-		flex: 1,
-		justifyContent: "flex-end",
-	},
-	icon_close: {
-		width: 50,
-		height: 50,
-		borderRadius: 50,
-		position: 'absolute',
-		right: 5,
-		top: 15
-	},	
 	book_container: {
-		padding: 16,
 		backgroundColor: '#fff',
 		paddingBottom: 40,
+    padding: 20,
 		borderTopLeftRadius: 25,
 		borderTopRightRadius: 25,
 	},

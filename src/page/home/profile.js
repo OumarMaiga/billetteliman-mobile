@@ -1,34 +1,25 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Ionicons } from 'react-native-vector-icons';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
-import ErrorModal from '../../component/ErrorModal';
-import { dateTimeFormat, priceFormat } from '../../helper';
-import { Loading } from '../../component/Loading';
 
 const Profile = ({navigation}) => {
     
   const user = useSelector((state) => state.user.user);
 
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState("");
-
-  const toggleErrorModal = () => {
-    setIsErrorModalVisible(!isErrorModalVisible);
-  };
-
-  const boughtTicketPress = (boughtTicketId) => {
-    navigation.navigate('BoughtTicket', {
-      "boughtTicketId": boughtTicketId
-    });
+  const onEditPress = () => {
+    if (global.debug >= GLOBAL.LOG.INFO) console.log("Profile::onEditPress()");
+    navigation.navigate('EditProfile');
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <View style={styles.profile_header_container}>
+          <Text style={styles.profile_header_title}>Mon profil</Text>
+        </View>
         
         <Text style={{fontWeight:"bold",padding:20,fontSize:16}}>Information personnelle</Text>
 
@@ -62,10 +53,12 @@ const Profile = ({navigation}) => {
               <Text style={styles.profile_info_perso_item_text}>{`${user.phonenumber}`}</Text>
             </View>
           </View>
+
+          <TouchableOpacity onPress={onEditPress} style={{display: 'flex', flexWrap: 'wrap'}}>
+            <Text style={styles.custom_button}>Mise à jour du profil</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
-      <Loading isLoading={isLoading} />
-      <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
     </SafeAreaView>
   );
 }

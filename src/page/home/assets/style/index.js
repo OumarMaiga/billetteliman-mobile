@@ -1,4 +1,7 @@
 import { StyleSheet } from "react-native";
+import { Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     //All
@@ -37,11 +40,12 @@ const styles = StyleSheet.create({
     adds_container: {
         marginBottom: 20
     },
-    adds_image: {
-        width: "100%",
-        height: 200,
-        backgroundColor: '#c4c4c4'
-    },
+    // adds_image: {
+    //     width: width,
+    //     height: 200,
+    //     backgroundColor: '#c4c4c4',
+    //     resizeMode: 'cover',
+    // },
     station_container: {
         margin: 5,
     },
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     },
     search_section: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
         marginTop: -45,
@@ -67,6 +71,7 @@ const styles = StyleSheet.create({
     },
     search_icon: {
         padding: 10,
+        paddingLeft: 20
     },    
     search_input: {
         flex: 1,
@@ -227,8 +232,26 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
 
+    // BottomSheet    
+	book_container: {
+		backgroundColor: '#fff',
+		paddingBottom: 40,
+        padding: 20,
+		borderTopLeftRadius: 25,
+		borderTopRightRadius: 25,
+	},
+	book_title: {
+		fontSize: 22,
+		fontWeight: "bold",
+		marginBottom: 20
+	},
+	button_search_container: {
+		marginTop: 20,
+		display: 'flex',
+        alignItems: 'flex-start',
+	} ,
 
-    // Drawer Navigation
+// Drawer Navigation
   head_info: {
     padding: 20,
     flexDirection: "row",

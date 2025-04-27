@@ -13,7 +13,8 @@ const EditPassword = ({navigation}) => {
   const user = useSelector((state) => state.user.user);
 
   const [password, setPassword] = React.useState();
-  const [passwordConfirm, setPasswordConfirm] = React.useState();
+  const [newPassword, setNewPassword] = React.useState();
+  const [newPasswordConfirm, setNewPasswordConfirm] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = React.useState(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = React.useState(false);
@@ -35,8 +36,9 @@ const EditPassword = ({navigation}) => {
     setIsLoading(true);
 
     const formData = new FormData(); 
-    formData.append("new-password", password);
-    formData.append("new-password-confirm", passwordConfirm);
+    formData.append("password", password);
+    formData.append("new-password", newPassword);
+    formData.append("new-password-confirm", newPasswordConfirm);
     
     const response = await changePassword(user.id, formData);
     
@@ -56,17 +58,23 @@ const EditPassword = ({navigation}) => {
         <View style={{margin: 20}}>
           <Text style={{marginBottom: 20, fontSize: 22, fontWeight: 'bold'}}>Changer mot de passe</Text>
                       
-          <Text style={styles.label}>Nouveau mot de passe</Text>
+          <Text style={styles.label}>Ancien mot de passe</Text>
           <TextInput secureTextEntry
             style={styles.input}
             onChangeText={(text)=>setPassword(text)}
             value={password} />
             
+          <Text style={styles.label}>Nouveau mot de passe</Text>
+          <TextInput secureTextEntry
+            style={styles.input}
+            onChangeText={(text)=>setNewPassword(text)}
+            value={newPassword} />
+            
           <Text style={styles.label}>Confirmer nouveau mot de passe</Text>
           <TextInput secureTextEntry
             style={styles.input}
-            onChangeText={(text)=>setPasswordConfirm(text)}
-            value={passwordConfirm} />
+            onChangeText={(text)=>setNewPasswordConfirm(text)}
+            value={newPasswordConfirm} />
                         
           <TouchableOpacity onPress={onSubmit} style={{display: 'flex', flexWrap: 'wrap'}}>
             <Text style={styles.custom_button}>Modifier</Text>

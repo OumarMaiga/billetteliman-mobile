@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import '../../data/global';
 
 export default function({station, handelItemPress}) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../data/global';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import { dateTimeFormat, priceFormat } from '../helper';
 
 export default function({ticket, handelItemPress, isTicketsLoading}) {
