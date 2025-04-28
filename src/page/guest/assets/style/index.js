@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     button_container: {
         flexDirection: "row",
         flexWrap: 'wrap',
-        justifyContent: "center"
     },
     button_start: {
         backgroundColor: "#fff",

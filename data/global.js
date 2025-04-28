@@ -42,10 +42,10 @@ global.currentUser = {
 
 /* backend */
 /* Wi-fi */
-// global.SERVER_ADDRESS = 'https://billetteliman.com/api';
+global.SERVER_ADDRESS = 'https://billetteliman.com/api';
 
 /* ngrok */
-global.SERVER_ADDRESS = 'https://598f-2c0f-f900-1002-850-1036-1e1f-3f2-676d.ngrok-free.app/api';
+// global.SERVER_ADDRESS = 'https://598f-2c0f-f900-1002-850-1036-1e1f-3f2-676d.ngrok-free.app/api';
 
 global.server_off = false;
 global.server_status = null;

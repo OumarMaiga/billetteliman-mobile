@@ -54,7 +54,7 @@ const EditPassword = ({navigation}) => {
   
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>        
+      <ScrollView>
         <View style={{margin: 20}}>
           <Text style={{marginBottom: 20, fontSize: 22, fontWeight: 'bold'}}>Changer mot de passe</Text>
                       

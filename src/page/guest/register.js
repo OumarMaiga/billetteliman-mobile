@@ -96,8 +96,7 @@ const Register = ({navigation}) => {
 
     return (
       <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}
-         style={{flex:1}}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ScrollView style={{margin: 20}}>
               <Text style={[styles.title,{marginTop: 80, marginBottom: 20}]}>Inscrivez-vous</Text>
@@ -130,9 +129,11 @@ const Register = ({navigation}) => {
                 onChangeText={(text)=>setPasswordConfirm(text)}
                 value={passwordConfirm} />
                 
-              <TouchableOpacity style={styles.button_container} onPress={submitButtonPress}>
-                <Text style={styles.button_text}>Inscription</Text>
-              </TouchableOpacity>
+              <View style={styles.button_container}>
+                <TouchableOpacity onPress={submitButtonPress}>
+                  <Text style={styles.button_text}>Inscription</Text>
+                </TouchableOpacity>
+              </View>
               <Text style={{textAlign: 'center', marginTop: 20, fontSize: 16}}>Vous avez déjà un compte?</Text>
               <TouchableOpacity onPress={connexionLinkPress} 
                 style={styles.link}>

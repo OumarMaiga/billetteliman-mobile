@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView, TextInput, 
   TouchableOpacity, KeyboardAvoidingView, Platform, 
-  Button} from 'react-native';
+  Button, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import { getTicket, boughtTicket } from '../../../service/ticket';
 import styles from './assets/style/index';
 import * as GLOBAL from "../../../data/global.js";
@@ -128,86 +128,89 @@ const Ticket = ({route, navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       { ticket && (
-        <KeyboardAvoidingView behavior="padding" 
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}>
-          <ScrollView>
-            <View style={styles.ticket_detail_container}>              
-              <Text style={styles.ticket_detail_station}>{ticket && ticket.partner.companyName}</Text>
-              <View style={styles.ticket_detail_item_row}>
-                <View style={styles.ticket_detail_item}>
-                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Trajet'}</Text>
-                  <Text style={styles.ticket_detail_item_text}>{ticket && ticket.travelDatas.from} - {ticket && ticket.travelDatas.to}</Text>
+        <KeyboardAvoidingView style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVertstyle={{ flex: 1 }} icalOffset={Platform.OS === 'ios' ? 80 : 0}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView keyboardShouldPersistTaps="handled">
+              <View style={styles.ticket_detail_container}>              
+                <Text style={styles.ticket_detail_station}>{ticket && ticket.partner.companyName}</Text>
+                <View style={styles.ticket_detail_item_row}>
+                  <View style={styles.ticket_detail_item}>
+                    <Text style={styles.ticket_detail_item_label}>{ticket && 'Trajet'}</Text>
+                    <Text style={styles.ticket_detail_item_text}>{ticket && ticket.travelDatas.from} - {ticket && ticket.travelDatas.to}</Text>
+                  </View>
+                  <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
+                    <Text style={styles.ticket_detail_item_label}>{ticket && 'Départ'}</Text>
+                    <Text style={[styles.ticket_detail_item_text,{textAlign: "right"}]}>{ticket && dateTimeFormat(day, ticket.travelDatas.departureAt)}</Text>
+                  </View>
                 </View>
-                <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
-                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Départ'}</Text>
-                  <Text style={[styles.ticket_detail_item_text,{textAlign: "right"}]}>{ticket && dateTimeFormat(day, ticket.travelDatas.departureAt)}</Text>
+                <View style={styles.ticket_detail_item_row}>
+                  <View style={styles.ticket_detail_item}>
+                    <Text style={styles.ticket_detail_item_label}>{ticket && 'Distance'}</Text>
+                    <Text style={styles.ticket_detail_item_text}>{ticket && '1500km'}</Text>
+                  </View>
+                  <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
+                    <Text style={styles.ticket_detail_item_label}>{ticket && 'Durée'}</Text>
+                    <Text style={styles.ticket_detail_item_text}>{ticket && '28h'}</Text>
+                  </View>
+                </View>
+                <View style={styles.ticket_detail_item_row}>
+                  <View style={styles.ticket_detail_item}>
+                    <Text style={styles.ticket_detail_item_label}>{ticket && 'Tarif'}</Text>
+                    <Text style={[styles.ticket_detail_item_text,{alignItems: "flex-end"}]}>{ticket && priceFormat(ticket.price)}</Text>
+                  </View>
+                  <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
+                    <Text style={styles.ticket_detail_item_label}>{ticket && 'Commission'}</Text>
+                    <Text style={[styles.ticket_detail_item_text,{textAlign: "right"}]}>{ticket && priceFormat(ticket.commission)}</Text>
+                  </View>
                 </View>
               </View>
-              <View style={styles.ticket_detail_item_row}>
-                <View style={styles.ticket_detail_item}>
-                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Distance'}</Text>
-                  <Text style={styles.ticket_detail_item_text}>{ticket && '1500km'}</Text>
-                </View>
-                <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
-                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Durée'}</Text>
-                  <Text style={styles.ticket_detail_item_text}>{ticket && '28h'}</Text>
-                </View>
-              </View>
-              <View style={styles.ticket_detail_item_row}>
-                <View style={styles.ticket_detail_item}>
-                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Tarif'}</Text>
-                  <Text style={[styles.ticket_detail_item_text,{alignItems: "flex-end"}]}>{ticket && priceFormat(ticket.price)}</Text>
-                </View>
-                <View style={[styles.ticket_detail_item,{alignItems: "flex-end"}]}>
-                  <Text style={styles.ticket_detail_item_label}>{ticket && 'Commission'}</Text>
-                  <Text style={[styles.ticket_detail_item_text,{textAlign: "right"}]}>{ticket && priceFormat(ticket.commission)}</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.ticket_detail_form_container}>
-              <Text style={styles.ticket_detail_form_billet}>Informations du passager</Text>
-              
-              {/* <Text style={styles.label}>Nombre</Text>
-              <View style={styles.input}>
-                <Picker
-                  selectedValue={ticketCount}
-                  onValueChange={(itemValue) => setTicketCount(itemValue)}
-                >
-                  <Picker.Item key="1" label="1" value="1" />
-                  <Picker.Item key="2" label="2" value="2" />
-                  <Picker.Item key="3" label="3" value="3" />
-                  <Picker.Item key="4" label="4" value="4" />
-                  <Picker.Item key="5" label="5" value="5" />
-                </Picker>
-              </View> */}
+              <View style={styles.ticket_detail_form_container}>
+                <Text style={styles.ticket_detail_form_billet}>Informations du passager</Text>
+                
+                {/* <Text style={styles.label}>Nombre</Text>
+                <View style={styles.input}>
+                  <Picker
+                    selectedValue={ticketCount}
+                    onValueChange={(itemValue) => setTicketCount(itemValue)}
+                  >
+                    <Picker.Item key="1" label="1" value="1" />
+                    <Picker.Item key="2" label="2" value="2" />
+                    <Picker.Item key="3" label="3" value="3" />
+                    <Picker.Item key="4" label="4" value="4" />
+                    <Picker.Item key="5" label="5" value="5" />
+                  </Picker>
+                </View> */}
 
-              <Text style={styles.label}>Prenom</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={(text)=>setFirstname(text)}
-                value={firstname} />
-                
-              <Text style={styles.label}>Nom</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={(text)=>setLastname(text)}
-                value={lastname} />
-                
-              <Text style={styles.label}>Telephone</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType='numeric'
-                onChangeText={(text)=>setPhonenumber(text)}
-                value={phonenumber} />
-                
-              <TouchableOpacity onPress={() => buyPress(ticket_id)} style={{display: 'flex', flexWrap: 'wrap', marginBottom: 20}}>
-                <Text style={styles.custom_button}>Acheter</Text>
-                <Loading isLoading={isBoughtTicketLoading}/>
-              </TouchableOpacity>
-            </View>
-            <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
-            <SuccessModal isVisible={isSuccessModalVisible} toggleModal={toggleSuccessModal} message={successMessage} />
-          </ScrollView>
+                <Text style={styles.label}>Prenom</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(text)=>setFirstname(text)}
+                  value={firstname} />
+                  
+                <Text style={styles.label}>Nom</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(text)=>setLastname(text)}
+                  value={lastname} />
+                  
+                <Text style={styles.label}>Telephone</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType='numeric'
+                  onChangeText={(text)=>setPhonenumber(text)}
+                  value={phonenumber} />
+                  
+                <TouchableOpacity onPress={() => buyPress(ticket_id)} style={{display: 'flex', flexWrap: 'wrap', marginBottom: 20}}>
+                  <Text style={styles.custom_button}>Acheter</Text>
+                  <Loading isLoading={isBoughtTicketLoading}/>
+                </TouchableOpacity>
+              </View>
+              <ErrorModal isVisible={isErrorModalVisible} toggleModal={toggleErrorModal} message={errorMessage} />
+              <SuccessModal isVisible={isSuccessModalVisible} toggleModal={toggleSuccessModal} message={successMessage} />
+            </ScrollView>
+          </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       )}
       <Loading isLoading={isLoading}/>
